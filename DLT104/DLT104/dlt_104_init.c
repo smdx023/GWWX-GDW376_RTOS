@@ -16,7 +16,8 @@
 #include "dlt_104_cfg.h"
 #include "dlt_104_port_com.h"
 
-#define PRIO 0
+
+
 //#define CFG_DEBUG
 
 
@@ -128,21 +129,21 @@ int init_process(unsigned char port)
 
 	switch(step) {
 	case 0: /* setup link --> */
-		ret = com_rx(dlt_104_setup_link, port, PRIO);
+		ret = com_rx(dlt_104_setup_link, port, INIT_PRIO);
 		if (ret == 1) {
 			step++;
 		}
 		break;
 
 	case 1: /* setup link ack <-- */
-		ret = com_tx(dlt_104_setup_link_ack, port, PRIO);
+		ret = com_tx(dlt_104_setup_link_ack, port, INIT_PRIO);
 		if (ret == 1) {
 			step++;
 		}
 		break;
 
 	case 2: /* init end <-- */
-		ret = com_tx(dlt_104_init_end, port, PRIO);
+		ret = com_tx(dlt_104_init_end, port, INIT_PRIO);
 		if (ret == 1) {
 			step = 0;
 		}

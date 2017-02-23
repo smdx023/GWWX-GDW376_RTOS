@@ -55,7 +55,7 @@ char dlt_104_frame_type(char *frame, int len)
 	}
 
 	/* S frame */
-	if (((frame[2] & 0x01) == 1) 
+	if (((frame[2] & 0x03) == 1) 
 	    && ((frame[4] & 0x01) == 0) 
 	    && (L == 4)) {
 		return 'S';
@@ -162,10 +162,10 @@ int dlt_104_frame_read(unsigned char port, char *frame, char *rxbuf, int *rxlen)
 #ifdef CFG_DEBUG			
 			print_frame(0, head, 6, 'R');
 #endif			
-			memcpy(frame, head + 6, 6);			
+			memcpy(frame, head, 6);			
 			len = *rxlen - 6;
 			
-			memcpy(rxbuf, head, len);
+			memcpy(rxbuf, head + 6, len);
 			*rxlen = len;			
 			return 6;			 
 

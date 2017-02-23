@@ -17,7 +17,7 @@
 #include "dlt_104_cfg.h"
 
 
-#define PRIO 1
+
 
 //#define CFG_DEBUG
 
@@ -240,32 +240,32 @@ int call_process(unsigned char port)
 	switch(step) {
 	case 0: /* call cmd  --> */
 		Print("call cmd -->\r\n");	
-		ret = com_rx(dlt_101_call_cmd, port, PRIO);
+		ret = com_rx(dlt_101_call_cmd, port, CALL_PRIO);
 		if (ret == 1)
 			step++;			
 		break;
 
 	case 1: /* call ack <-- */
 		Print("call ack <--\r\n");
-		ret = com_tx(dlt_101_call_ack, port, PRIO);
+		ret = com_tx(dlt_101_call_ack, port, CALL_PRIO);
 		if (ret == 1)
 			step++;
 		break;
 
 	case 2: /* call user data YX <-- */
-		ret = com_tx(dlt_101_call_user_data_YX, port, PRIO);
+		ret = com_tx(dlt_101_call_user_data_YX, port, CALL_PRIO);
 		if (ret == 1) /* have user data to send */
 			step++;
 		break;
 
 	case 3: /* call user data YC <-- */
-		ret = com_tx(dlt_101_call_user_data_YC, port, PRIO);
+		ret = com_tx(dlt_101_call_user_data_YC, port, CALL_PRIO);
 		if (ret == 1) /* have user data to send */
 			step++;
 		break;
 
 	case 4: /* call end <-- */
-		ret = com_tx(dlt_101_call_end, port, PRIO);
+		ret = com_tx(dlt_101_call_end, port, CALL_PRIO);
 		if (ret == 1) 
 			step = 0;
 		break;

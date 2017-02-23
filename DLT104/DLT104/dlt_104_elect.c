@@ -1,12 +1,12 @@
 /******************************************************************************
-    °æÈ¨ËùÓĞ£º
-    °æ ±¾ ºÅ: 1.0
-    ÎÄ ¼ş Ãû: dlt_104_elect.c
-    Éú³ÉÈÕÆÚ: 
-    ×÷	 Õß£º Àî¿Æ
-    ¹¦ÄÜËµÃ÷£ºÊµÏÖ¡¶Åäµç×Ô¶¯»¯ÏµÍ³Ó¦ÓÃDL/T634.5104-2009ÊµÊ©Ï¸Ôò¡·
-    ÆäËûËµÃ÷£ºµçÄÜÁ¿ÕÙ»½¹ı³Ì
-    ĞŞ¸Ä¼ÇÂ¼£º
+    ç‰ˆæƒæ‰€æœ‰ï¼š
+    ç‰ˆ æœ¬ å·: 1.0
+    æ–‡ ä»¶ å: dlt_104_elect.c
+    ç”Ÿæˆæ—¥æœŸ: 
+    ä½œ	 è€…ï¼š æç§‘
+    åŠŸèƒ½è¯´æ˜ï¼šå®ç°ã€Šé…ç”µè‡ªåŠ¨åŒ–ç³»ç»Ÿåº”ç”¨DL/T634.5104-2009å®æ–½ç»†åˆ™ã€‹
+    å…¶ä»–è¯´æ˜ï¼šç”µèƒ½é‡å¬å”¤è¿‡ç¨‹
+    ä¿®æ”¹è®°å½•ï¼š
 *******************************************************************************/
 #include <stdio.h>
 #include <string.h>
@@ -17,7 +17,7 @@
 #include "dlt_104_cfg.h"
 
 
-#define PRIO 8
+
 
 
 //#define CFG_DEBUG
@@ -61,28 +61,28 @@ static int dlt_104_elect_call(unsigned char port, char *rxbuf, int len)
 		return 0;
 	}
 
-	/* ¿É±ä³¤¶ÈÏŞ¶¨´Ê */
+	/* å¯å˜é•¿åº¦é™å®šè¯ */
 	VSQ = rxbuf[7];
 	if (VSQ != 1) {
 		Print("unpack elect_call VSQ error\r\n");	
 		return 0;
 	}
 
-	/*´«ÊäÔ­Òò */
+	/*ä¼ è¾“åŸå›  */
 	COT = rxbuf[9] * 0x100 + rxbuf[8];
 	if (COT != 6) {
 		Print("unpack elect_call COT error\r\n");	
 		return 0;
 	}
 	
-	/* ASDU ¹«¹²µØÖ· */
+	/* ASDU å…¬å…±åœ°å€ */
 	ASDU = rxbuf[11] * 0x100 + rxbuf[10];
 	if (ASDU != arg->asdu) { 
 		Print("unpack elect_call asdu error\r\n");	
 		return 0;
 	}
 
-	/* ĞÅÏ¢¶ÔÏóµØÖ·  */
+	/* ä¿¡æ¯å¯¹è±¡åœ°å€  */
 	point_addr = rxbuf[14] * 0x10000 + rxbuf[13] * 0x100 + rxbuf[12];
 	if (point_addr != 0) { 
 		Print("unpack elect_call point addr error\r\n");	
@@ -104,7 +104,7 @@ static int dlt_104_elect_call_ack(unsigned char port, char *txbuf)
 	txbuf[0] = 0x68;
 	txbuf[1] = 20;
 			
-	txbuf[2] = 0; /*¿ØÖÆÓòC */
+	txbuf[2] = 0; /*æ§åˆ¶åŸŸC */
 	txbuf[3] = 0;
 	txbuf[4] = 0;
 	txbuf[5] = 0;
@@ -112,13 +112,13 @@ static int dlt_104_elect_call_ack(unsigned char port, char *txbuf)
 	txbuf[6] = 101; /* TI */
 	txbuf[7] = 1;  /* VSQ */	
 	
-	txbuf[8] = 5;  /* ´«ËÍÔ­ÒòCOT ¼¤»îÈ·ÈÏ */
+	txbuf[8] = 5;  /* ä¼ é€åŸå› COT æ¿€æ´»ç¡®è®¤ */
 	txbuf[9] = 0;
  	
-	txbuf[10] = (unsigned char)arg->asdu; /* ASDU¹«¹²µØÖ· */
+	txbuf[10] = (unsigned char)arg->asdu; /* ASDUå…¬å…±åœ°å€ */
 	txbuf[11] = (unsigned char)(arg->asdu >> 8);
 	
-	txbuf[12] = 0; /* ĞÅÏ¢¶ÔÏóµØÖ· */
+	txbuf[12] = 0; /* ä¿¡æ¯å¯¹è±¡åœ°å€ */
 	txbuf[13] = 0;
 	txbuf[14] = 0;
 
@@ -144,7 +144,7 @@ static int dlt_104_elect_call_data(unsigned char port, char *txbuf)
 	txbuf[0] = 0x68;
 	txbuf[1] = 10 + len;
 			
-	txbuf[2] = 0; /*¿ØÖÆÓòC */
+	txbuf[2] = 0; /*æ§åˆ¶åŸŸC */
 	txbuf[3] = 0;
 	txbuf[4] = 0;
 	txbuf[5] = 0;
@@ -152,10 +152,10 @@ static int dlt_104_elect_call_data(unsigned char port, char *txbuf)
 	txbuf[6] = 206;  /* TI */
 	txbuf[7] = num;  /* VSQ */	
 	
-	txbuf[8] = 37;  /* ´«ËÍÔ­ÒòCOT ÏìÓ¦µçÄÜÁ¿×ÜÕÙ»½ */
+	txbuf[8] = 37;  /* ä¼ é€åŸå› COT å“åº”ç”µèƒ½é‡æ€»å¬å”¤ */
 	txbuf[9] = 0;
  	
-	txbuf[10] = (unsigned char)lib_arg->asdu; /* ASDU¹«¹²µØÖ· */
+	txbuf[10] = (unsigned char)lib_arg->asdu; /* ASDUå…¬å…±åœ°å€ */
 	txbuf[11] = (unsigned char)(lib_arg->asdu >> 8);
 	
 	return len + 12;
@@ -169,7 +169,7 @@ static int dlt_104_elect_call_end(unsigned char port, char *txbuf)
 	txbuf[0] = 0x68;
 	txbuf[1] = 20;
 			
-	txbuf[2] = 0; /*¿ØÖÆÓòC */
+	txbuf[2] = 0; /*æ§åˆ¶åŸŸC */
 	txbuf[3] = 0;
 	txbuf[4] = 0;
 	txbuf[5] = 0;
@@ -177,13 +177,13 @@ static int dlt_104_elect_call_end(unsigned char port, char *txbuf)
 	txbuf[6] = 101; /* TI */
 	txbuf[7] = 1;  /* VSQ */	
 	
-	txbuf[8] = 10;  /* ´«ËÍÔ­ÒòCOT ¼¤»îÖÕÖ¹ */
+	txbuf[8] = 10;  /* ä¼ é€åŸå› COT æ¿€æ´»ç»ˆæ­¢ */
 	txbuf[9] = 0;
  	
-	txbuf[10] = (unsigned char)arg->asdu; /* ASDU¹«¹²µØÖ· */
+	txbuf[10] = (unsigned char)arg->asdu; /* ASDUå…¬å…±åœ°å€ */
 	txbuf[11] = (unsigned char)(arg->asdu >> 8);
 	
-	txbuf[12] = 0; /* ĞÅÏ¢¶ÔÏóµØÖ· */
+	txbuf[12] = 0; /* ä¿¡æ¯å¯¹è±¡åœ°å€ */
 	txbuf[13] = 0;
 	txbuf[14] = 0;
 
@@ -198,25 +198,25 @@ int elect_process(unsigned char port)
 
 	switch(step) {
 	case 0: 
-		ret = com_rx(dlt_104_elect_call, port, PRIO);
+		ret = com_rx(dlt_104_elect_call, port, ELECT_PRIO);
 		if (ret == 1)
 			step++;			
 		break;
 
 	case 1: 
-		ret = com_tx(dlt_104_elect_call_ack, port, PRIO);
+		ret = com_tx(dlt_104_elect_call_ack, port, ELECT_PRIO);
 		if (ret == 1)
 			step++;
 		break;
 	
 	case 2: 
-		ret = com_tx(dlt_104_elect_call_data, port, PRIO);
+		ret = com_tx(dlt_104_elect_call_data, port, ELECT_PRIO);
 		if (ret == 0) /* the all elect data frames send end */
 			step++;
 		break;
 	
 	case 3: 
-		ret = com_tx(dlt_104_elect_call_end, port, PRIO);
+		ret = com_tx(dlt_104_elect_call_end, port, ELECT_PRIO);
 		if (ret == 1)
 			step = 0;
 		break;

@@ -224,11 +224,25 @@ int dlt_104_cp56time2a_write(char *cp56time2a)
 }
 
 
+
+struct soe_yx
+{
+	unsigned short point_add;
+	unsigned char yx_data;
+};
+
+
 int user_data_YX_change(unsigned char *num, char *buff, 
 		unsigned char TI, unsigned char SQ)
 {
+		
+
+
 	return 0;
 }
+
+
+
 
 int user_data_YX_clear(void)
 {

@@ -17,8 +17,6 @@
 #include "dlt_104_cfg.h"
 
 
-#define PRIO 2
-
 
 //#define CFG_DEBUG
 
@@ -143,13 +141,13 @@ int time_syn_process(unsigned char port)
 	switch(step) {
 	case 0: /* time syn --> */
 		Print("time syn\r\n");
-		ret = com_rx(dlt_104_time_syn, port, PRIO);
+		ret = com_rx(dlt_104_time_syn, port, TIME_PRIO);
 		if (ret == 1)
 			step++;			
 		break;
 
 	case 1: /* time syn ack <-- */
-		ret = com_tx(dlt_104_time_syn_ack, port, PRIO);
+		ret = com_tx(dlt_104_time_syn_ack, port, TIME_PRIO);
 		if (ret == 1)
 			step = 0;
 		break;
@@ -249,13 +247,13 @@ int time_read_process(unsigned char port)
 
 	switch(step) {
 	case 0: /* time read --> */
-		ret = com_rx(dlt_104_time_read, port, PRIO);
+		ret = com_rx(dlt_104_time_read, port, TIME_PRIO);
 		if (ret == 1)
 			step++;			
 		break;
 
 	case 1: /* time read ack <-- */
-		ret = com_tx(dlt_104_time_read_ack, port, PRIO);
+		ret = com_tx(dlt_104_time_read_ack, port, TIME_PRIO);
 		if (ret == 1)
 			step = 0;
 		break;

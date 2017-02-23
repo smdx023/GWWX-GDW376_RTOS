@@ -17,10 +17,6 @@
 #include "dlt_104_cfg.h"
 
 
-#define YX_PRIO 3
-#define YC_PRIO 4
-
-
 #define CFG_DEBUG
 
 #ifdef CFG_DEBUG
@@ -56,10 +52,10 @@ static struct param_process arg[MAX_PORT];
 static int dlt_104_soe_YX(unsigned char port, char *txbuf)
 {
 	struct dlt_lib  *arg = &dlt_lib_arg[port];
-	unsigned char num = 0, TI, VSQ = 0, SQ = 1;
+	unsigned char num = 0, TI, VSQ = 0, SQ = 0;
 	int len;
 	
-	TI = 30; /* TI 带CP56Time2a时标的单点信息 */
+	TI = 30; /* SOE需要带时标 TI 带CP56Time2a时标的单点信息 */
 	
 	/* YX change? */
 	len = user_data_YX_change(&num, txbuf + 12, TI, SQ);

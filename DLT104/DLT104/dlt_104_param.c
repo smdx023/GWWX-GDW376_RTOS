@@ -17,12 +17,6 @@
 #include "dlt_104_cfg.h"
 
 
-#define AREA_READ_PRIO 4
-#define AREA_SWITCH_PRIO 5
-#define PARAM_SET_PRIO 6
-#define PARAM_READ_PRIO 7
-
-
 #define CFG_DEBUG
 
 

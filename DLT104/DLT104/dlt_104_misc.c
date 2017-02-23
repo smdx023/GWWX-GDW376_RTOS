@@ -16,9 +16,9 @@
 #include "dlt_104_cfg.h"
 #include "dlt_104_port_com.h"
 
-#define TEST_LINK_PRIO 0
 
-//#define CFG_DEBUG
+
+#define CFG_DEBUG
 #ifdef CFG_DEBUG
     #define Print(fmt,args...) printf(fmt, ##args)
 #else
@@ -28,6 +28,8 @@
 
 struct param_process {
 	char test_link_step;
+	char S_frame_step;
+
 	char FCB;   /* 记录接收到的启动站报文的帧计数，用于应答启动站 */
 	char FCV;
 
@@ -44,7 +46,7 @@ struct param_process {
 static struct param_process arg[MAX_PORT];
 
 
-
+/* 测试帧U 68 04 43 00 00 00 */
 static int dlt_104_test_link(unsigned char port, char *rxbuf, int len)
 {
 	char C1; 
@@ -52,13 +54,17 @@ static int dlt_104_test_link(unsigned char port, char *rxbuf, int len)
 	
 	C1 = rxbuf[2];
 	
+	printf("inter dlt_104_test_link unpack!\r\n");
+
 	/* U frame */	
 	if (((rxbuf[2] & 0x03) == 0x03) 
 	    && ((rxbuf[4] & 0x01) == 0)) {
 		
  		TESTFR = (C1 >> 6) & 0x03;	
-		if (TESTFR == 1) 			
+		if (TESTFR == 1) {
+			printf("dlt_104_test_link unpack ok!\r\n");
 			return 1;
+		}
 	}
 		
 	return 0;
@@ -72,7 +78,42 @@ static int dlt_104_test_link_ack(unsigned char port, char *txbuf)
 
 	txbuf[0] = 0x68;
 	txbuf[1] = 4;
-	C1 = 0x03 | STARTDT_cmd << 2 | TESTFR_cmd << 6 | STOPDT_cmd << 4 | 0x03;
+	C1 = STARTDT_cmd << 2 | TESTFR_cmd << 6 | STOPDT_cmd << 4 | 0x03;
+	txbuf[2] = C1;
+	txbuf[3] = C2;
+	txbuf[4] = C3;
+	txbuf[5] = C4;
+
+	return 6;
+}
+
+
+
+/* 68 04 01 00 12 00 */
+static int dlt_104_S_frame(unsigned char port, char *rxbuf, int len)
+{	
+	printf(" dlt_104_S_frame unpack\r\n");
+	print_frame(port, rxbuf, len, 'R');	
+
+	/* S frame */	
+	if (((rxbuf[2] & 0x03) == 1) 	    
+		&& ((rxbuf[4] & 0x01) == 0)
+		&& (rxbuf[1] == 4)) {			
+			printf(" dlt_104_S_frame unpack ok!\r\n");
+			return 1;
+	}
+		
+	return 0;
+}
+
+
+static int dlt_104_S_frame_ack(unsigned char port, char *txbuf)
+{
+	char C1 = 0, C2 = 0, C3 = 0, C4 = 0; 
+
+	txbuf[0] = 0x68;
+	txbuf[1] = 4;
+	C1 = 0x01;
 	txbuf[2] = C1;
 	txbuf[3] = C2;
 	txbuf[4] = C3;
@@ -109,6 +150,39 @@ int test_link_process(unsigned char port)
 	}
 
 	arg[port].test_link_step = step;
+	return 0;
+}
+
+
+
+
+/* ack the S frame rx from tcp server */
+int S_frame_ack_process(unsigned char port)
+{
+	char step = arg[port].S_frame_step;
+	int ret;
+
+	switch(step) {
+	case 0: 
+		ret = com_rx(dlt_104_S_frame, port, S_FRAME_PRIO);
+		if (ret == 1) {
+			step++;
+		}
+		break;
+
+	case 1: 
+		ret = com_tx(dlt_104_S_frame_ack, port, S_FRAME_PRIO);
+		if (ret == 1) {
+			step = 0;
+		}
+		break;
+
+	default:
+		step = 0;
+		break;
+	}
+
+	arg[port].S_frame_step = step;
 	return 0;
 }
 

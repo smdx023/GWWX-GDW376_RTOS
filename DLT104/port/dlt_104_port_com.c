@@ -23,11 +23,16 @@
   #include "eth_client.h"
 #endif
 
-#ifdef CFG_SYS_LINUX
-    #define print(fmt, args...) printf(fmt, ##args)
+
+
+#define CFG_DEBUG
+
+#ifdef CFG_DEBUG
+    #define Print(fmt,args...) printf(fmt, ##args)
 #else
-    #define print(fmt, args...)
+    #define Print(fmt,args...)
 #endif
+
 
 
 #define CFG_DEBUG
@@ -37,8 +42,6 @@
 
 #define WLAN_RXBUF_SIZE  256
 #define WLAN_TXBUF_SIZE  256
-
-#define MAX_PROCESS 20
 
 
 char comtxbuf[COM_TXBUF_SIZE];
@@ -238,8 +241,10 @@ int com_tx(int (*dlt_104_apdu_pack)(unsigned char port, char *txbuf), unsigned c
 	
 	/* 等待优先级高的处理完成 */
 	for (i = 0; i < prio; i++) {
-		if (com->apdu_pack[i] != 0)
-			return 0;	
+		if (com->apdu_pack[i] != 0) {
+			printf("%d prio is low than %d!\r\n", prio, i);
+			return 0;
+		}
 	}
 					
 	com->txlen = com->apdu_pack[prio](port, com->txbuf);

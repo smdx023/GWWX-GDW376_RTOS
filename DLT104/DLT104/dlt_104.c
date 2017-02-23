@@ -38,19 +38,21 @@ int dlt_104(char port)
 	
 	soe_YX_process(port);
 
-	soe_YC_process(port);
+//	soe_YC_process(port);
 
-	param_fixed_area_read_process(port);
+//	param_fixed_area_read_process(port);
 
-	param_read_process(port);
+//	param_read_process(port);
 	
-	param_fixed_area_switch_process(port);
+//	param_fixed_area_switch_process(port);
   	
-	param_set_process(port);
+//	param_set_process(port);
 	
-	elect_process(port);
+//	elect_process(port);
 
 	test_link_process(port);
+
+	S_frame_ack_process(port);
 
 	return 0;
 }
