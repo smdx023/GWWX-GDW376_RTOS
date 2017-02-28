@@ -19,6 +19,8 @@ extern int user_data_YX_change(unsigned char *num, char *buff,
 		unsigned char TI, unsigned char SQ);
 
 int user_data_YX_clear(void);
+int user_data_read_YX(char TI, char SQ, char *txbuf, unsigned char *num);
+int user_data_read_YC(char TI, char SQ, char *txbuf, unsigned char *num);
 
 extern int user_data_YC_change(unsigned char *num, char *buff, unsigned char TI, unsigned char SQ);
 
@@ -54,11 +56,13 @@ extern int dlt_104_save_file_segment(char *file_name,
                            char len);
                           
 
-char dlt_104_get_param(char *txbuf, unsigned char *ponit_num_out, 
-		char *asdu_data, unsigned char *adsu_len, unsigned char point_num_in);
+unsigned char dlt_104_get_param(char *txbuf, 
+			unsigned char *index,   
+			const unsigned char adsu_index,
+			const char *asdu_data, 
+			const unsigned char asdu_len);
 
-int dlt_104_set_param(char *data, unsigned char num, char *type);
-int dlt_104_get_elect(char *data, unsigned char SQ, 
-			unsigned char *num_out, unsigned char sub_num);
+int dlt_104_set_param(char *data, unsigned char len);
+int dlt_104_get_elect(char *data, unsigned char SQ, unsigned char *num);
 
 #endif /* _PTL_104_PORT_ */

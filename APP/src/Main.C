@@ -78,13 +78,19 @@ int task_main(void)
 	// ZD_Stat_Init();   //;初始化终端状态
 //;    ERC14_Judge(2);	 //;终端来电  zrt 20130801放到抄表函数里面
 	while(1) {
+		
+//		COMLIGHTON();  //;通信正常指示
+//		OSTimeDlyHMSM(0, 0, 1, 500);
+//		COMLIGHTOFF();
+//		OSTimeDlyHMSM(0, 0, 1, 500);		
+		
 		ZD_POW_CHK();	    //;检测掉电处理
 		ZD_HWareRes_CHK();  //;检测硬件是否要重启
 		//ZD_CSSAVE_CHK();    //;检测终端参数保存
 		//USART_Com();	    //;串口通讯@like
 		//ZD_Port_Com()     //;终端端口通讯@like
 		//Modem_Com();	      //;Gprs模块通讯 @like
-		AFNComDeal();	    //;GDW130规约本地与远程通讯
+		//AFNComDeal();	    //;GDW130规约本地与远程通讯
 
 		if(RTC_FlagMs) {   //;250ms执行一次
 			RTC_FlagMs = 0;
@@ -102,7 +108,7 @@ int task_main(void)
 			//ZD_Relay();	//;数据转发
 		//	Modem_GDCDLightCtr();
 		//	ZD_ERC();	//;处理事件
-			ZD_Task();	//;任务上送
+			//ZD_Task();	//;任务上送
 			if(RTC_FlagSec) { //;每秒执行一次
 				RTC_FlagSec = 0;
 				LinkStat_CHK();
@@ -159,29 +165,29 @@ static void App_TaskCreate (void)
 			(void		*) 0,
 			(INT16U		 )(OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR));
 
-//	/* GPRS通信模块管理任务 */
-//	OSTaskCreateExt((void (*)(void *)) App_Task_Wlan,
-//			(void		*) 0,
-//			(OS_STK		*)&App_Task_Gprs_Stk[APP_CFG_TASK_GPRS_STK_SIZE - 1],
-//			(INT8U		 ) APP_CFG_TASK_GPRS_PRIO,
-//			(INT16U		 ) APP_CFG_TASK_GPRS_PRIO,
-//			(OS_STK		*)&App_Task_Gprs_Stk[0],
-//			(INT32U		 ) APP_CFG_TASK_GPRS_STK_SIZE,
-//			(void		*) 0,
-//			(INT8U		 )(OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR));
-//
-//	/* 主站数据交互 */
-//	OSTaskCreateExt((void (*)(void *)) App_Task_Ptl,
-//			(void		*) 0,
-//			(OS_STK		*)&App_Task_GDW376_Stk[APP_CFG_TASK_GDW376_STK_SIZE - 1],
-//			(INT8U		 ) APP_CFG_TASK_GDW376_PRIO,
-//			(INT16U		 ) APP_CFG_TASK_GDW376_PRIO,
-//			(OS_STK		*)&App_Task_GDW376_Stk[0],
-//			(INT32U		 ) APP_CFG_TASK_GDW376_STK_SIZE,
-//			(void		*) 0,
-//			(INT8U		 )(OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR));
-//
-//
+	/* GPRS通信模块管理任务 */
+	OSTaskCreateExt((void (*)(void *)) App_Task_Wlan,
+			(void		*) 0,
+			(OS_STK		*)&App_Task_Gprs_Stk[APP_CFG_TASK_GPRS_STK_SIZE - 1],
+			(INT8U		 ) APP_CFG_TASK_GPRS_PRIO,
+			(INT16U		 ) APP_CFG_TASK_GPRS_PRIO,
+			(OS_STK		*)&App_Task_Gprs_Stk[0],
+			(INT32U		 ) APP_CFG_TASK_GPRS_STK_SIZE,
+			(void		*) 0,
+			(INT8U		 )(OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR));
+
+	/* 主站数据交互 */
+	OSTaskCreateExt((void (*)(void *)) App_Task_Ptl,
+			(void		*) 0,
+			(OS_STK		*)&App_Task_GDW376_Stk[APP_CFG_TASK_GDW376_STK_SIZE - 1],
+			(INT8U		 ) APP_CFG_TASK_GDW376_PRIO,
+			(INT16U		 ) APP_CFG_TASK_GDW376_PRIO,
+			(OS_STK		*)&App_Task_GDW376_Stk[0],
+			(INT32U		 ) APP_CFG_TASK_GDW376_STK_SIZE,
+			(void		*) 0,
+			(INT8U		 )(OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR));
+
+
 	/* 数据运算处理 */
 	OSTaskCreateExt((void (*)(void *)) App_Task_DatPro,
 			(void		*) 0,
@@ -283,7 +289,10 @@ static void App_TaskStart (void *p_arg)
 
 	while (1) {
 		task_main();
-		OSTimeDlyHMSM(0, 0, 1, 0);
+		COMLIGHTON();  //;通信正常指示
+		OSTimeDlyHMSM(0, 0, 0, 500);
+		COMLIGHTOFF();
+		OSTimeDlyHMSM(0, 0, 0, 500);
 	}
 }
 

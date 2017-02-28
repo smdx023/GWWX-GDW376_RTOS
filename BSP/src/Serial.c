@@ -723,7 +723,7 @@ int uart1_read(char *rxbuf, int size, int ovt_ms)
 	int len = 0;
 	
 	while (ovt_ms--) {
-		len = uart1_receive_packet(rxbuf, size, 100);
+		len = uart1_receive_packet(rxbuf, size, 1000);
 		if (len > 0) {
 			break;
 		}

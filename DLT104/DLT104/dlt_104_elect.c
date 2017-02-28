@@ -47,6 +47,7 @@ static struct param_process arg[MAX_PORT];
 
 
 
+/* 68 0E 04 00 04 00 65 81 06 00 01 00 00 00 00 05 */
 static int dlt_104_elect_call(unsigned char port, char *rxbuf, int len)
 {
 	char TYP, VSQ, ASDU, COT, QCC;
@@ -129,15 +130,11 @@ static int dlt_104_elect_call_ack(unsigned char port, char *txbuf)
 static int dlt_104_elect_call_data(unsigned char port, char *txbuf)
 {
 	struct dlt_lib  *lib_arg = &dlt_lib_arg[port];
-	struct param_process *pro_arg = &arg[port];
+	//struct param_process *pro_arg = &arg[port];
 	unsigned char len, num = 0, SQ = 0;
 
-	len = dlt_104_get_elect(txbuf + 12, SQ, &num, pro_arg->num);
-	if ((len > 0) && (num > 0))
-		pro_arg->num += num;	
-
-	if (len <= 0) {		
-		pro_arg->num = 0;
+	len = dlt_104_get_elect(txbuf + 12, SQ, &num);
+	if (len <= 0) {	
 		return 0;
 	}
 

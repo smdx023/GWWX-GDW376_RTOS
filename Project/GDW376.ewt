@@ -2316,38 +2316,47 @@
   </configuration>
   <group>
     <name>APP</name>
-    <file>
-      <name>$PROJ_DIR$\..\APP\src\GDW376_AFN.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\APP\src\GDW376_CFG.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\APP\src\GDW376_DJPN.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\APP\src\GDW376_ERC.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\APP\src\GDW376_FUN.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\APP\src\GDW376_MeterCom.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\APP\src\GDW376_MMU.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\APP\src\GDW376_StatData.C</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\APP\src\GDW376_Table.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\APP\src\GDW376_Task.c</name>
-    </file>
+    <group>
+      <name>old</name>
+      <file>
+        <name>$PROJ_DIR$\..\APP\src\GDW376_AFN.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\APP\src\GDW376_CFG.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\APP\src\GDW376_DJPN.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\APP\src\GDW376_ERC.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\APP\src\GDW376_FUN.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\APP\src\GDW376_MeterCom.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\APP\src\GDW376_MMU.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\APP\src\GDW376_StatData.C</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\APP\src\GDW376_Table.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\APP\src\GDW376_Task.c</name>
+      </file>
+    </group>
     <file>
       <name>$PROJ_DIR$\..\APP\src\Main.C</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\APP\src\store.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\APP\src\store_param.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\APP\src\task_dat_pro.c</name>

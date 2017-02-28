@@ -1,12 +1,12 @@
 /******************************************************************************
-    ç‰ˆæƒæ‰€æœ‰ï¼š
-    ç‰ˆ æœ¬ å·: 1.0
-    æ–‡ ä»¶ å: dlt_104_call.c
-    ç”Ÿæˆæ—¥æœŸ: 
-    ä½œ	 è€…ï¼šæç§‘
-    åŠŸèƒ½è¯´æ˜ï¼šå®ç°ã€Šé…ç”µè‡ªåŠ¨åŒ–ç³»ç»Ÿåº”ç”¨DL/T634.5104-2009å®æ–½ç»†åˆ™ã€‹
-    å…¶ä»–è¯´æ˜ï¼š
-    ä¿®æ”¹è®°å½•ï¼š
+    °æÈ¨ËùÓĞ£º
+    °æ ±¾ ºÅ: 1.0
+    ÎÄ ¼ş Ãû: dlt_104_call.c
+    Éú³ÉÈÕÆÚ: 
+    ×÷	 Õß£ºÀî¿Æ
+    ¹¦ÄÜËµÃ÷£ºÊµÏÖ¡¶Åäµç×Ô¶¯»¯ÏµÍ³Ó¦ÓÃDL/T634.5104-2009ÊµÊ©Ï¸Ôò¡·
+    ÆäËûËµÃ÷£º
+    ĞŞ¸Ä¼ÇÂ¼£º
 *******************************************************************************/
 #include <stdio.h>
 #include <string.h>
@@ -30,10 +30,10 @@
 
 struct param_process {
 	char step;
-	char FCB;   /* è®°å½•æ¥æ”¶åˆ°çš„å¯åŠ¨ç«™æŠ¥æ–‡çš„å¸§è®¡æ•°ï¼Œç”¨äºåº”ç­”å¯åŠ¨ç«™ */
+	char FCB;   /* ¼ÇÂ¼½ÓÊÕµ½µÄÆô¶¯Õ¾±¨ÎÄµÄÖ¡¼ÆÊı£¬ÓÃÓÚÓ¦´ğÆô¶¯Õ¾ */
 	char FCV;
 
-	char M_FCB; /* ä½œä¸ºå¯åŠ¨ç«™ï¼Œä¿å­˜*/
+	char M_FCB; /* ×÷ÎªÆô¶¯Õ¾£¬±£´æ*/
 	char M_FCV;
 
 	char TYP;
@@ -61,28 +61,28 @@ static int dlt_101_call_cmd(unsigned char port, char *rxbuf, int len)
 		return 0;
 	}
 
-	/* å¯å˜é•¿åº¦é™å®šè¯ */
+	/* ¿É±ä³¤¶ÈÏŞ¶¨´Ê */
 	VSQ = rxbuf[7];
 	if (VSQ != 1) {
 		Print("unpack call VSQ error\r\n");	
 		return 0;
 	}
 
-	/*ä¼ è¾“åŸå›  */
+	/*´«ÊäÔ­Òò */
 	COT = rxbuf[9] * 0x100 + rxbuf[8];
 	if (COT != 6) {
 		Print("unpack call COT error\r\n");	
 		return 0;
 	}
 	
-	/* ASDU å…¬å…±åœ°å€ */
+	/* ASDU ¹«¹²µØÖ· */
 	ASDU = rxbuf[11] * 0x100 + rxbuf[10];
 	if (ASDU != arg->asdu) { 
 		Print("unpack call asdu error\r\n");	
 		return 0;
 	}
 
-	/* ä¿¡æ¯å¯¹è±¡åœ°å€  */
+	/* ĞÅÏ¢¶ÔÏóµØÖ·  */
 	point_addr = rxbuf[14] * 0x10000 + rxbuf[13] * 0x100 + rxbuf[12];
 	if (point_addr != 0) { 
 		Print("unpack call point addr error\r\n");	
@@ -108,7 +108,7 @@ static int dlt_101_call_ack(unsigned char port, char *txbuf)
 	txbuf[0] = 0x68;
 	txbuf[1] = 14;
 			
-	txbuf[2] = 0; /*æ§åˆ¶åŸŸC */
+	txbuf[2] = 0; /*¿ØÖÆÓòC */
 	txbuf[3] = 0;
 	txbuf[4] = 0;
 	txbuf[5] = 0;
@@ -116,17 +116,17 @@ static int dlt_101_call_ack(unsigned char port, char *txbuf)
 	txbuf[6] = 100; /* TI */
 	txbuf[7] = 1;  /* VSQ */	
 	
-	txbuf[8] = 7;  /* ä¼ é€åŸå› COT æ¿€æ´»ç¡®è®¤ */
+	txbuf[8] = 7;  /* ´«ËÍÔ­ÒòCOT ¼¤»îÈ·ÈÏ */
 	txbuf[9] = 0;
  	
-	txbuf[10] = (unsigned char)arg->asdu; /* ASDUå…¬å…±åœ°å€ */
+	txbuf[10] = (unsigned char)arg->asdu; /* ASDU¹«¹²µØÖ· */
 	txbuf[11] = (unsigned char)(arg->asdu >> 8);
 	
-	txbuf[12] = 0; /* ä¿¡æ¯å¯¹è±¡åœ°å€ */
+	txbuf[12] = 0; /* ĞÅÏ¢¶ÔÏóµØÖ· */
 	txbuf[13] = 0;
 	txbuf[14] = 0;
 
-	txbuf[15] = 20; /* åˆå§‹åŒ–åŸå› COI */
+	txbuf[15] = 20; /* ³õÊ¼»¯Ô­ÒòCOI */
 
 	return 16;
 }
@@ -141,22 +141,22 @@ static int dlt_101_call_user_data_YX(unsigned char port, char *txbuf)
 
 	txbuf[0] = 0x68;
 			
-	txbuf[2] = 0; /*æ§åˆ¶åŸŸC */
+	txbuf[2] = 0; /*¿ØÖÆÓòC */
 	txbuf[3] = 0;
 	txbuf[4] = 0;
 	txbuf[5] = 0;
 
-	txbuf[6] = 1; /* TI å•ç‚¹ä¿¡æ¯ */
+	txbuf[6] = 1; /* TI µ¥µãĞÅÏ¢ */
 	TI = 1;
 	
-	txbuf[8] = 5;  /* ä¼ é€åŸå› COT è¢«è¯·æ±‚*/
+	txbuf[8] = 5;  /* ´«ËÍÔ­ÒòCOT ±»ÇëÇó*/
 	txbuf[9] = 0;
  	
-	txbuf[10] = (unsigned char)arg->asdu; /* ASDUå…¬å…±åœ°å€ */
+	txbuf[10] = (unsigned char)arg->asdu; /* ASDU¹«¹²µØÖ· */
 	txbuf[11] = (unsigned char)(arg->asdu >> 8);
 	
 	/* read user data, yaoce, yaoxin */
-	len = user_data_read(TI, SQ, txbuf + 12, &num);
+	len = user_data_read_YX(TI, SQ, txbuf + 12, &num);
 	VSQ = (SQ << 7) | num;
 	txbuf[7] = VSQ;  /* VSQ */
 	
@@ -174,22 +174,22 @@ static int dlt_101_call_user_data_YC(unsigned char port, char *txbuf)
 
 	txbuf[0] = 0x68;
 			
-	txbuf[2] = 0; /*æ§åˆ¶åŸŸC */
+	txbuf[2] = 0; /*¿ØÖÆÓòC */
 	txbuf[3] = 0;
 	txbuf[4] = 0;
 	txbuf[5] = 0;
 
-	txbuf[6] = 9; /* TI æµ‹é‡å€¼ï¼Œå½’ä¸€åŒ–å€¼*/
+	txbuf[6] = 13; /* TI ²âÁ¿Öµ£¬IEEE STD745 ¶Ì¸¡µãÊı */
 	TI = 9;
 	
-	txbuf[8] = 5;  /* ä¼ é€åŸå› COT è¢«è¯·æ±‚*/
+	txbuf[8] = 5;  /* ´«ËÍÔ­ÒòCOT ±»ÇëÇó*/
 	txbuf[9] = 0;
  	
-	txbuf[10] = (unsigned char)arg->asdu; /* ASDUå…¬å…±åœ°å€ */
+	txbuf[10] = (unsigned char)arg->asdu; /* ASDU¹«¹²µØÖ· */
 	txbuf[11] = (unsigned char)(arg->asdu >> 8);
 	
 	/* read user data, yaoce, yaoxin */
-	len = user_data_read(TI, SQ, txbuf + 12, &num);
+	len = user_data_read_YC(TI, SQ, txbuf + 12, &num);
 	VSQ = (SQ << 7) | num;
 	txbuf[7] = VSQ;  /* VSQ */
 	
@@ -207,7 +207,7 @@ static int dlt_101_call_end(unsigned char port, char *txbuf)
 	txbuf[0] = 0x68;
 	txbuf[1] = 14;
 			
-	txbuf[2] = 0; /*æ§åˆ¶åŸŸC */
+	txbuf[2] = 0; /*¿ØÖÆÓòC */
 	txbuf[3] = 0;
 	txbuf[4] = 0;
 	txbuf[5] = 0;
@@ -215,17 +215,17 @@ static int dlt_101_call_end(unsigned char port, char *txbuf)
 	txbuf[6] = 100; /* TI */
 	txbuf[7] = 1;  /* VSQ */	
 	
-	txbuf[8] = 10;  /* ä¼ é€åŸå› COT æ¿€æ´»ç»ˆæ­¢*/
+	txbuf[8] = 10;  /* ´«ËÍÔ­ÒòCOT ¼¤»îÖÕÖ¹*/
 	txbuf[9] = 0;
  	
-	txbuf[10] = (unsigned char)arg->asdu; /* ASDUå…¬å…±åœ°å€ */
+	txbuf[10] = (unsigned char)arg->asdu; /* ASDU¹«¹²µØÖ· */
 	txbuf[11] = (unsigned char)(arg->asdu >> 8);
 	
-	txbuf[12] = 0; /* ä¿¡æ¯å¯¹è±¡åœ°å€ */
+	txbuf[12] = 0; /* ĞÅÏ¢¶ÔÏóµØÖ· */
 	txbuf[13] = 0;
 	txbuf[14] = 0;
 
-	txbuf[15] = 20; /* å¬å”¤é™å®šè¯QOI */
+	txbuf[15] = 20; /* ÕÙ»½ÏŞ¶¨´ÊQOI */
 
 	return 16;
 }

@@ -33,22 +33,12 @@ struct meter_ctl {
 };
 
 
-static int collect_meter_led(void )
+static int collect_meter_flash(void )
 {	
-	static unsigned short status;
-	
-	if (status == 0) {
-		status = 1;
-		METERDATALIGHTON(); //数据灯亮
-		return 0;
-	}
-	
-	if (status == 1) {
-		status = 0;
-		METERDATALIGHTOFF(); //数据灯亮
-		return 0;
-	}
-	
+	METERDATALIGHTON(); //数据灯亮
+	OSTimeDly(50);
+	METERDATALIGHTOFF(); //数据灯亮
+	OSTimeDly(50);	
 	return 0;
 }
 
@@ -199,10 +189,9 @@ static int collect_meter_frame_pack(unsigned char *txbuf, unsigned long DI1DI0,
 static int meter_frame_send(unsigned char *txbuf, int len)
 {
 	int ret;
-
-
 	
 	ret = uart5_send_byte(txbuf, len);
+	collect_meter_flash();
 	if (ret < 0)
 		return -1;
 
@@ -218,7 +207,7 @@ static int meter_frame_receive(unsigned char *rxbuf, int size, int ovt_s)
 	while (ovt_ms --) {
 		len = uart5_receive_packet(rxbuf, size, 100);
 		if (len > 0) {
-			collect_meter_led();
+			collect_meter_flash();
 			break;
 		}
 
@@ -298,8 +287,6 @@ static int colleter_meter(struct meter_ctl *ctl, unsigned char index)
 	} else {
 		return -1;
 	}
-	
-	COMLIGHTOFF();//;通信失败指示
 	
 	for (i = 0; i < di_num; i++) {
 

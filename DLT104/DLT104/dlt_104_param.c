@@ -38,10 +38,17 @@ struct param_process {
 	char COT;
 	char CR;
 	char num;
+	
 	char SE;
 
-	char asdu_data[128];
+	char asdu_data[256];
 	unsigned char asdu_len;
+	
+	/* 
+	 * 当读取多个参数时，用于记录本次解析asdu数据的位置
+	 * 当读取全部参数叶，用于记录本次解析的参数个数
+	 */
+	unsigned char adsu_index; 
 
 	char area_read_step;
 	char param_read_step;
@@ -214,12 +221,27 @@ static int dlt_104_param_read_ack(unsigned char port, char *txbuf)
 {
 	struct dlt_lib  *lib_arg = &dlt_lib_arg[port];
 	struct param_process *pro_arg = &arg[port];
-	unsigned char len, num;
+	unsigned char len, num, index;
 
-	len = dlt_104_get_param(txbuf + 12, &num, pro_arg->asdu_data,
-				 &pro_arg->asdu_len, pro_arg->num);
-	if (len <= 0)
-		return 0;
+	len = dlt_104_get_param(txbuf + 12, 
+			&index, 
+			pro_arg->adsu_index,
+			pro_arg->asdu_data, 
+			pro_arg->asdu_len);	
+	
+	if (pro_arg->asdu_len > 2)
+		num = (index - pro_arg->asdu_len) / 3;	
+	else
+		num = index - pro_arg->asdu_len;
+
+	pro_arg->adsu_index = index;
+
+	if (len <= 0) {
+		memset(pro_arg->asdu_data, 0, 150);
+		pro_arg->asdu_len = 0;			
+		pro_arg->adsu_index = 0;
+		return 0;		
+	}
 
 	txbuf[0] = 0x68;
 	txbuf[1] = 10 + len;
@@ -391,7 +413,6 @@ static int dlt_104_param_set(unsigned char port, char *rxbuf, int len)
 	struct dlt_lib  *lib_arg = &dlt_lib_arg[port];
  	struct param_process *pro_arg = &arg[port];
 	unsigned char SE = 0, num = 0, CR = 0;
-	int ret;
 	
 	Print("unpack param_pro_set\r\n");	
 
@@ -419,8 +440,6 @@ static int dlt_104_param_set(unsigned char port, char *rxbuf, int len)
 	CR = (rxbuf[14] >> 6) & 0x01;
 		
 	/* save for ack */
-	pro_arg->asdu_len = rxbuf[1] - 10;
-	memcpy(pro_arg->asdu_data, rxbuf + 12, pro_arg->asdu_len);
 	pro_arg->SE = SE;
 	pro_arg->COT = COT;
 	pro_arg->CR = CR;
@@ -428,23 +447,24 @@ static int dlt_104_param_set(unsigned char port, char *rxbuf, int len)
 
 	/* pro set */
 	if ((COT == 6) && (SE == 1) && (CR == 0)) {				
-		ret = dlt_104_set_param(rxbuf + 12, num, "pro_set");
-		if (ret == 0) 	
-			return 1;
+		pro_arg->asdu_len = rxbuf[1] - 10;
+		memcpy(pro_arg->asdu_data, rxbuf + 12, pro_arg->asdu_len);	
+		return 1;
 	}
 
 	/* stop set */
 	if ((COT == 8) && (SE == 0) && (CR == 1)) {
-		ret = dlt_104_set_param(rxbuf + 12, num, "stop_set");
-		if (ret == 0)
-			return 1;
+		memset(pro_arg->asdu_data, 0, 256);
+		pro_arg->asdu_len = 0;
+		return 1;
 	}
 
 	/*  set */
 	if ((COT == 6) && (SE == 0) && (CR == 0)) {
-		ret = dlt_104_set_param(rxbuf + 12, num, "set");
-		if (ret == 0)
-			return 1;
+		dlt_104_set_param(pro_arg->asdu_data, pro_arg->asdu_len);
+		memset(pro_arg->asdu_data, 0, 256);
+		pro_arg->asdu_len = 0;
+		return 1;
 	}
 
 	return 0;

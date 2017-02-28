@@ -15,7 +15,7 @@
 #include "dlt_104_lib.h"
 #include "dlt_104_cfg.h"
 
-#define CFG_DEBUG
+//#define CFG_DEBUG
 
 #ifdef CFG_DEBUG
     #define Print(fmt,args...) printf(fmt, ##args)
@@ -178,7 +178,7 @@ int dlt_104_frame_read(unsigned char port, char *frame, char *rxbuf, int *rxlen)
 #endif			
 			/* get frame send index */
 			NS = (head[3] * 0x100 + head[2]) << 1;
-			if (NS >= arg->NR) {			
+			//if (NS >= arg->NR) {			
 				arg->NR++;
 				Print("right frame\r\n");
 				memcpy(frame, head, L + 2);			
@@ -187,17 +187,17 @@ int dlt_104_frame_read(unsigned char port, char *frame, char *rxbuf, int *rxlen)
 				memcpy(rxbuf, head + L + 2, len);
 				*rxlen = len;			
 				return L + 2;	
-			}
+			//}
  			
 			/* repetitive frame */
-			else if (NS < arg->NR) {
-				Print("repetitive frame\r\n");
-				len = *rxlen - L - 2;
-	
-				memcpy(rxbuf, head + L + 2, len);
-				*rxlen = len;			
-				return 0;
-			}  
+//			else if (NS < arg->NR) {
+//				Print("repetitive frame\r\n");
+//				len = *rxlen - L - 2;
+//	
+//				memcpy(rxbuf, head + L + 2, len);
+//				*rxlen = len;			
+//				return 0;
+//			}  
  	    
 		}						    
 	}

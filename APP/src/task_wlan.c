@@ -129,7 +129,7 @@ static int wlan_tcp_client(struct wlan_info *info)
 	memcpy(info->tcp.apn, ZDP.F3.APN, 16);
 	
 	strcpy(info->tcp.severip, "122.228.19.57\0");
-	info->tcp.severport = 12627;
+	info->tcp.severport = 34299;
 	strcpy(info->tcp.apn, "CMNET\0");
 	
 	/* 建立TCP连接 */
@@ -202,7 +202,7 @@ void App_Task_Wlan(void *p_arg)
                         break;
                 }
 		
-		OSTimeDly(500);
+		OSTimeDlyHMSM(0, 0, 0, 1);	
         }
 }
 

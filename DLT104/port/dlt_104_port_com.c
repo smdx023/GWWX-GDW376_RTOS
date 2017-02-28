@@ -123,7 +123,7 @@ int dlt_104_port_receive(unsigned char port, char *buff, int size)
 	}
 	
 	if (port == PORT_COM) {
-		len = uart1_read(buff, size, 200);	
+		len = uart1_read(buff, size, 1500);	
 	}	
 
 #else /* CFG_SYS_LINUX */

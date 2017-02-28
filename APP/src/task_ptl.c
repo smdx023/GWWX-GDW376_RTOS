@@ -113,12 +113,25 @@ int wlan_comm_test(void)
 
 void App_Task_Ptl(void *p_arg)
 {
-        task_ptl_init();
-	dlt_104_init(PORT_COM);
+        char init_flag = 1;
+	
+	task_ptl_init();
+	dlt_104_init(PORT_WLAN);
 	
 	for ( ;; ) {		
-		//ptl_gdw_376_test();
-		dlt_104(PORT_COM);
+		//wlan_comm_test();	
+		if (wlan_info_link_status()) {
+			dlt_104(PORT_WLAN);
+			if (init_flag == 0)
+				init_flag = 1;
+		} else {	
+			if (init_flag == 1) {
+				init_flag = 0;
+				dlt_104_init(PORT_WLAN);
+			}
+		}
+		
+		OSTimeDlyHMSM(0, 0, 0, 1);
         }
 }
 

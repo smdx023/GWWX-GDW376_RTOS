@@ -2,7 +2,7 @@
 
 "C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.5\arm\bin\armjlink2.dll" 
 
-"E:\GWWX\GWWX-GDW376_RTOS\Project\Debug\Exe\GDW376.out" 
+"C:\GDW376\Debug\Exe\GDW376.out" 
 
 --plugin "C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.5\arm\bin\armbat.dll" 
 

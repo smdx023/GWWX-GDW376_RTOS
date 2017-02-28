@@ -26,6 +26,63 @@
 #define RXMAXLEN    1300
 
 
+void com_led_flash(void)
+{	
+	GPIO_ResetBits(GPIOB, GPIO_Pin_8) ; //;网络数据灯开
+	OSTimeDly(50);
+	GPIO_SetBits(GPIOB, GPIO_Pin_8) ;	
+	OSTimeDly(50);
+}
+
+
+void  tcp_link_led_on(void)
+{	
+	GPIO_ResetBits(GPIOB, GPIO_Pin_9) ; //;网络数据灯开
+}
+
+  
+
+void  tcp_link_led_off(void)
+{	
+	GPIO_SetBits(GPIOB, GPIO_Pin_9) ;	
+}
+
+
+char* memstr(char* full_data, int full_data_len, char* substr)
+{
+    if (full_data == NULL || full_data_len <= 0 || substr == NULL) {
+        return NULL;
+    }
+
+    if (*substr == '0') {
+        return NULL;
+    }
+
+    int sublen = strlen(substr);
+
+    int i;
+    char* cur = full_data;
+    int last_possible = full_data_len - sublen + 1;
+    for (i = 0; i < last_possible; i++) {
+        if (*cur == *substr) {
+            //assert(full_data_len - i >= sublen);
+            if (memcmp(cur, substr, sublen) == 0) {
+                //found
+                return cur;
+            }
+        }
+        cur++;
+    }
+
+    return NULL;
+}
+
+
+
+
+
+
+
 
 /******************************************************************************
     功能说明：接收一条AT命令，
@@ -45,9 +102,10 @@ static int rxatcmd(char *rxbuf, char *athead, char *attail,
 	memset(rxbuf, 0, size);
 	
 	while (ovt_ms--) {
-		len = uart2_receive_packet(rxbuf, size, 50);
+		len = uart2_receive_packet(rxbuf, size, 250);
 		if (len > 0) {
 			rxbuf[len] = '\0';
+			com_led_flash();
 			break;
 		}
 		
@@ -58,9 +116,12 @@ static int rxatcmd(char *rxbuf, char *athead, char *attail,
 	
 		/* want to find the head key word */
 		if (athead != 0) {				
-			key = strstr(rxbuf, athead);
+			key = memstr(rxbuf, len, athead);
 			if (key != NULL) {
-				strcpy(rxbuf, key);
+				if (key != rxbuf) {
+					len -= (key - rxbuf);
+					memcpy(rxbuf, key, len);				
+				}
 				
 				/* not want find the tail key word, just return */
 				if (attail == NULL)				
@@ -73,7 +134,7 @@ static int rxatcmd(char *rxbuf, char *athead, char *attail,
 	
 		/* wnat to find the tail key word */
 		if (attail != NULL) {			
-			key = strstr(rxbuf + 1, attail);
+			key = memstr(rxbuf + 1, len - 1, attail);
 			if (key != NULL)
 				return len;
 			else
@@ -96,6 +157,7 @@ static int rxatcmd(char *rxbuf, char *athead, char *attail,
 static int txatcmd(char *atcmd)
 {
 	uart2_send_byte(atcmd, strlen(atcmd));
+	com_led_flash();
 	return 0;
 }
 
@@ -155,7 +217,7 @@ static int at_ate_exec(int value)
 	if (txatcmd(cmdbuf) < 0)
 		return -1;
 	
-	if (rxatcmd(cmdbuf, "OK", 0, 64, 200) <= 0)
+	if (rxatcmd(cmdbuf, "OK", 0, 64, 500) <= 0)
 		return -1;
 	
 	return 0;
@@ -175,7 +237,7 @@ static int at_cgsn_exec(char *imei)
 	if (txatcmd("AT+CGSN\r\n") < 0)
 		return -1;
 	
-	if (rxatcmd(cmdbuf, "+CGSN:", "OK", 64, 300) <= 0)
+	if (rxatcmd(cmdbuf, "+CGSN:", "OK", 64, 500) <= 0)
 		return -1;
 	
 	sscanf(cmdbuf, "+CGSN:%sOK", imei);
@@ -199,7 +261,7 @@ int at_ipr_write(char *bandrate)
 	if (txatcmd(cmdbuf) < 0)
 		return -1;
 	
-	if (rxatcmd(cmdbuf, "OK", 0, 64, 200) <= 0)
+	if (rxatcmd(cmdbuf, "OK", 0, 64, 500) <= 0)
 		return -1;
 	return 0;
 }
@@ -218,7 +280,7 @@ static int at_cpin_read(char *pin)
 	if (txatcmd("AT+CPIN?\r\n") < 0)
 		return -1;
 	
-	if (rxatcmd(cmdbuf, "+CPIN:", "OK\r\n", 64, 200) <= 0)
+	if (rxatcmd(cmdbuf, "+CPIN:", "OK\r\n", 64, 500) <= 0)
 		return -1;
 	
 	sscanf(cmdbuf, "+CPIN: %s\r\n", pin);
@@ -240,7 +302,7 @@ static int at_ccid_read(char *ccid)
 	if (txatcmd("AT+CCID\r\n") < 0)
 		return -1;
 	
-	if (rxatcmd(cmdbuf, "\r\n+CCID:", "\r\n\r\nOK\r\n", 64, 200) <= 0)
+	if (rxatcmd(cmdbuf, "\r\n+CCID:", "\r\n\r\nOK\r\n", 64, 500) <= 0)
 		return -1;
 	
 	sscanf(cmdbuf, "+CCID:%s\r\n\r\nOK\r\n", ccid);
@@ -263,7 +325,7 @@ static int at_getvers_exec(char *vers)
 	if (txatcmd("AT+GETVERS\r\n") < 0)
 		return -1;
 	
-	if (rxatcmd(cmdbuf, "\r\n", "OK\r\n", 64, 200) <= 0)
+	if (rxatcmd(cmdbuf, "\r\n", "OK\r\n", 64, 500) <= 0)
 		return -1;
 	
 	sscanf(cmdbuf, "\r\n%s\r\n\r\nOK\r\n", vers);
@@ -286,7 +348,7 @@ static int at_csq_exec(char *csq)
 
 	if (txatcmd("AT+CSQ\r\n") < 0)
 		return -1;
-	if (rxatcmd(cmdbuf, "+CSQ:", "OK\r\n", 64, 200) <= 0)
+	if (rxatcmd(cmdbuf, "+CSQ:", "OK\r\n", 64, 500) <= 0)
 		return -1;
 	sscanf(cmdbuf, "+CSQ: %d,", &val);
 	*csq = (char)val;
@@ -312,7 +374,7 @@ static int at_creg_read(char *stat)
 
 	if (txatcmd("AT+CREG?\r\n") < 0)
 		return -1;
-	if (rxatcmd(cmdbuf, "+CREG:", "OK\r\n", 64, 200) <=0)
+	if (rxatcmd(cmdbuf, "+CREG:", "OK\r\n", 64, 500) <=0)
 		return -1;
 	sscanf(cmdbuf, "+CREG: 0,%s\r\n", stat);
 	return 0;
@@ -331,7 +393,7 @@ int at_cgatt_read(char *stat)
 
 	if (txatcmd("AT+CGATT?\r\n") < 0)
 		return -1;
-	if (rxatcmd(cmdbuf, "+CGATT: ", "OK\r\n", 64, 200) <= 0)
+	if (rxatcmd(cmdbuf, "+CGATT: ", "OK\r\n", 64, 500) <= 0)
 		return -1;
 	*stat = cmdbuf[8];
 	return 0;
@@ -351,7 +413,7 @@ int at_cops_read(char *opt)
 
 	if (txatcmd("AT+COPS?\r\n") < 0)
 		return -1;
-	if (rxatcmd(cmdbuf, "+COPS:", "OK\r\n", 64, 200) <= 0)
+	if (rxatcmd(cmdbuf, "+COPS:", "OK\r\n", 64, 500) <= 0)
 		return -1;
 	for (i = 0; i < 16; i++) {
 		if (cmdbuf[12 + i] == '"') {
@@ -385,7 +447,7 @@ static int at_tcp_send(const char *id, char *txbuf, int txlen)
 	if (txatcmd(cmdbuf) < 0)
 		return -1;
 	
-	if (rxatcmd(cmdbuf, "\r\n>", 0, 64, 200) <= 0)
+	if (rxatcmd(cmdbuf, "\r\n>", 0, 64, 500) <= 0)
 		return -1;
 
 	txbuf[txlen++] = 0x0d;
@@ -409,6 +471,7 @@ static int at_tcp_send(const char *id, char *txbuf, int txlen)
 *******************************************************************************/
 static int m590_shutdown(void)
 {
+	tcp_link_led_off();
 	return at_cpwroff_exec();
 }
 
@@ -423,6 +486,7 @@ static int m590_poweroff(void)
 {
 	M590_POWER_OFF;
 	DELAYMS(1000);
+	OSTimeDlyHMSM(0, 0, 0, 0);
 	return 0;
 }
 
@@ -450,7 +514,7 @@ static int m590_poweron(void)
     返 回 值：-1： 失败；0：成功
 *******************************************************************************/
 int m590_init(void)
-{
+{	
 	/* 软关机 */
 	m590_shutdown();
 
@@ -487,30 +551,30 @@ int m590_config(struct m590info *info)
 
 	/* 关回显 */
 	if (at_ate_exec(0))
-		return -2;
+		return -1;
 
 	/* 查看软件版本等信息 */
 	if (at_getvers_exec(info->software_v))
-		return -1;	
+		return -2;	
 	
 	/* read imei */
 	if (at_cgsn_exec(info->imei))
-		return -1;
+		return -3;
 	
-	/* 读取SIM的IMSI串号, 检测SIM卡是否就位 */
-	for (i = 0; i < 10; i++) {
-		if (at_ccid_read(info->imsi) == 0)
-			break;
-		if (i >= 9)
-			return -4;
-		DELAYMS(1000);
-	}
+//	/* 读取SIM的IMSI串号, 检测SIM卡是否就位 */
+//	for (i = 0; i < 10; i++) {
+//		if (at_ccid_read(info->imsi) == 0)
+//			break;
+//		if (i >= 9)
+//			return -4;
+//		DELAYMS(1000);
+//	}
 
 	/* 检测SIM卡PIN码是否鉴权成功 */
 	for (i = 0; i < 10; i++)  {
 		memset(info->simcpin, 0, 15);
 		if (at_cpin_read(info->simcpin))
-			return -5;
+			return -4;
 		if (strstr(info->simcpin, "READY") != NULL)
 			break;
 		if (i >= 9)
@@ -525,18 +589,18 @@ int m590_config(struct m590info *info)
 		if ((info->csq[0] > 0) && (info->csq[0] <= 31))
 			break;
 		if (i > 19)
-			return -6;
+			return -7;
 		DELAYMS(2000);
 	}
 
 	/* 查找是否注册网络 */
 	for (i = 0; i < 20; i++) {
 		if (at_creg_read(info->netreg) < 0)
-			return -7;
+			return -8;
 		if ((info->netreg[0] == '1') || (info->netreg[0] == '5'))
 			break;
 		if (i >= 19)
-			return -7;
+			return -9;
 		DELAYMS(1000);
 	}
 
@@ -567,7 +631,7 @@ static int at_cgdcont(const char *apn)
 	if (txatcmd(cmdbuf) < 0)
 		return -1;
 	
-	if (rxatcmd(cmdbuf, "OK", 0, 64, 100) <= 0)
+	if (rxatcmd(cmdbuf, "OK", 0, 64, 500) <= 0)
 		return -1;
 	
 	return 0;
@@ -581,7 +645,7 @@ static int at_xiic_write(void)
 	if (txatcmd("AT+XIIC=1\r\n") < 0)
 		return -1;
 	
-	if (rxatcmd(cmdbuf, "OK", 0, 64, 100) <= 0)
+	if (rxatcmd(cmdbuf, "OK", 0, 64, 500) <= 0)
 		return -1;
 	
 	return 0;
@@ -595,7 +659,7 @@ static int at_xiic_read(char *stat, char *localip)
 	if (txatcmd("AT+XIIC?\r\n") < 0)
 		return -1;
 	
-	if (rxatcmd(cmdbuf, "+XIIC:", 0, 64, 100) <= 0)
+	if (rxatcmd(cmdbuf, "+XIIC:", 0, 64, 500) <= 0)
 		return -1;
 	
 	*stat = cmdbuf[10];
@@ -617,8 +681,10 @@ static int at_tcpsetup_write(char *ip, unsigned short port)
 	while (ovt_ms--) {
 		len = rxatcmd(cmdbuf, "\r\n", "\r\n", 64, 1000);
 		if (len > 0) {
-			if (strstr(cmdbuf, "+TCPSETUP:0,OK") != NULL)
+			if (strstr(cmdbuf, "+TCPSETUP:0,OK") != NULL) {
+				tcp_link_led_on();
 				return 0;
+			}
 			if (strstr(cmdbuf, "OK") != NULL)
 				continue;
 			if (strstr(cmdbuf, "+TCPCLOSE") != NULL)
@@ -667,7 +733,8 @@ int m590_tcp_link(struct m590tcp *tcp)
 	ret = at_tcpsetup_write(tcp->severip, tcp->severport);
 	if (ret < 0)
 		return -1;
-
+	
+	
 	return 0;
 }
 
