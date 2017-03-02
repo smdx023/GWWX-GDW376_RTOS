@@ -52,8 +52,7 @@ int storage_write(unsigned long addr, char *data, int size)
                 
                 len = (PAGESIZE - index >= size) ? size: (PAGESIZE - index);               
                 memcpy(temp + index, data + write_size, len);
-                write_size += len;
-                
+                        
                 SPI_FLASH_PageWrite_E((unsigned char*)data, page);
                              
                 SPI_FLASH_PageRead(temp, (u16)page);      
@@ -62,6 +61,8 @@ int storage_write(unsigned long addr, char *data, int size)
 			break;
 		}	
                 
+		write_size += len;
+		
                 addr += write_size;
                              
         } while (write_size < size);      
@@ -95,5 +96,5 @@ int storage_read(unsigned long addr, char *data, int size)
                              
         } while (read_size < size);      
                  
-        return 0;
+        return read_size;
 }

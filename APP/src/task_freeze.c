@@ -10,22 +10,34 @@
 #include "BSP_CFG.h"
 #include "Serial.h"
 #include "GDW376_CFG.h"
+#include "printf.h"
 
 
-//#define CFG_DEBUG
+#define CFG_DEBUG
+
 #ifdef CFG_DEBUG
-#define Print(fmt,args...) printf(fmt, ##args)
+#define print(fmt,args...) kprintf(fmt, ##args)
 #else
-#define Print(fmt,args...)
+#define print(fmt,args...)
 #endif
 
 
+   u8 Sec;
+    u8 Min;
+    u8 Hour;
+    u8 Day;
+    u8 Month;
+    u8 Year;
 
 /* 当前系统时间的分获取 */
 static int freeze_get_min_time(unsigned char *minute)
-{
+{	
+	if ((THEX.Year == 0) || (THEX.Month == 0)|| (THEX.Day == 0))
+		return 0;
+	
 	*minute = THEX.Min;
-	return 0;
+	
+	return 1;
 }
 
 
@@ -81,8 +93,8 @@ static int freeze_curve_data(void)
 
 	/* 当前系统时间的分获取 */
 	ret = freeze_get_min_time(&minute);
-	if (ret < 0)
-		return -1;
+	if (ret == 0)
+		return 0;
 
 	/* 获取需要冻结的测量点数量 */
 	ret = freeze_get_pn_num(&num);
@@ -97,9 +109,12 @@ static int freeze_curve_data(void)
 		for (i = 0; i < num; i++) {
 
 			/* 曲线冻结测量点数据 */
+			print("freeze_curve_data_save pn = %d\r\n", i + 1);
 			ret = freeze_curve_data_save(i);
-			if (ret < 0)
+			if (ret < 0) {
+				print("freeze_curve_data_save error!\r\n");
 				return -1;
+			}
 		}
 	}
 
@@ -110,9 +125,13 @@ static int freeze_curve_data(void)
 /* 当前系统时间的分，时获取 */
 static int freeze_day_get_time(unsigned char *minute, unsigned char *hour)
 {
+	if ((THEX.Year == 0) || (THEX.Month == 0)|| (THEX.Day == 0))
+		return 0;	
+	
 	*minute = THEX.Min;
 	*hour = THEX.Hour;
-	return 0;
+	
+	return 1;
 }
 
 
@@ -155,8 +174,8 @@ static int freeze_day_data(void)
 
 	/* 当前系统时间的分，时获取 */
 	ret = freeze_day_get_time(&minute, &hour);
-	if (ret < 0)
-		return -1;
+	if (ret == 0)
+		return 0;
 
 	/* 获取需要冻结的测量点数量 */
 	ret = freeze_get_pn_num(&num);
@@ -171,9 +190,12 @@ static int freeze_day_data(void)
 		for (i = 0; i < num; i++) {
 
 			/* 日冻结测量点数据 */
+			print("freeze_day_data_save pn = %d\r\n", i + 1);
 			ret = freeze_day_data_save(i);
-			if (ret < 0)
+			if (ret < 0) {
+				print("freeze_day_data_save pn = %d error!\r\n", i + 1);
 				return -1;
+			}
 		}
 	}
 
@@ -185,10 +207,14 @@ static int freeze_day_data(void)
 static int freeze_month_get_time(unsigned char *minute, unsigned char *hour,
 			  unsigned char *day)
 {
+	if ((THEX.Year == 0) || (THEX.Month == 0)|| (THEX.Day == 0))
+		return 0;
+	
 	*minute = THEX.Min;
 	*hour = THEX.Hour;
 	*day = THEX.Day;
-	return 0;
+	
+	return 1;
 }
 
 
@@ -232,8 +258,8 @@ static int freeze_month_data(void)
 
 	/* 获取当前系统时间的分，时，月 */
 	ret = freeze_month_get_time(&minute, &hour, &month);
-	if (ret < 0)
-		return -1;
+	if (ret == 0)
+		return 0;
 
 	/* 获取需要冻结的测量点数量 */
 	ret = freeze_get_pn_num(&num);
@@ -248,9 +274,12 @@ static int freeze_month_data(void)
 		for (i = 0; i < num; i++) {
 
 			/* 冻结月数据 */
+			print("freeze_month_data_save pn = %d\r\n", i + 1);
 			ret = freeze_month_data_save(i);
-			if (ret < 0)
+			if (ret < 0) {
+				print("freeze_month_data_save pn = %d error\r\n", i + 1);
 				return -1;
+			}
 		}
 	}
 
@@ -262,10 +291,14 @@ static int freeze_month_data(void)
 static int freeze_coller_day_get_time(unsigned char *minute, unsigned char *hour,
 			       unsigned char *day)
 {
+	if ((THEX.Year == 0) || (THEX.Month == 0)|| (THEX.Day == 0))
+		return 0;
+	
 	*minute = TBCD.Min;
 	*hour = TBCD.Hour;
 	*day = TBCD.Day;
-	return 0;
+	
+	return 1;
 }
 
 
@@ -332,11 +365,11 @@ static int freeze_coller_day_data(void)
 	unsigned char minute, hour, day;
 	unsigned char num, i;
 	int ret;
-
+	
 	/* 获取系统当前时间的分，时，日 */
 	ret = freeze_coller_day_get_time(&minute, &hour, &day);
-	if (ret < 0)
-		return -1;
+	if (ret == 0)
+		return 0;
 
 	/* 获取测量点数量 */
 	ret = freeze_get_pn_num(&num);
@@ -349,9 +382,12 @@ static int freeze_coller_day_data(void)
 
 		/* 对所有的测量点数据进行冻结 */
 		for (i = 0; i < num; i++) {
+			print("freeze_coller_day_data_save pn = %d\r\n", i + 1);
 			ret = freeze_coller_day_data_save(i);
-			if (ret < 0)
+			if (ret < 0) {
+				print("freeze_coller_day_data_save pn = %d error!\r\n", i + 1);
 				return -1;
+			}
 		}
 	}
 
@@ -368,25 +404,25 @@ void App_Task_Freeze (void *p_arg)
 		/* 冻结曲线数据 */
 		ret = freeze_curve_data();
 		if (ret < 0) {
-			Print("freeze_curve_data error!\r\n");
+			print("freeze_curve_data error!\r\n");
 		}
 
 		/* 冻结日数据 */
 		ret = freeze_day_data();
 		if (ret < 0) {
-			Print("freeze_day_data error!\r\n");
+			print("freeze_day_data error!\r\n");
 		}
 
 		/* 冻结月数据 */
 		ret = freeze_month_data();
 		if (ret < 0) {
-			Print("freeze_month_data error!\r\n");
+			print("freeze_month_data error!\r\n");
 		}
 
 		/* 冻结抄表日数据 */
 		ret = freeze_coller_day_data();
 		if (ret < 0) {
-			Print("freeze_coller_meter_day_data error!\r\n");
+			print("freeze_coller_meter_day_data error!\r\n");
 		}
 
 		OSTimeDlyHMSM(0, 0, 1, 0);

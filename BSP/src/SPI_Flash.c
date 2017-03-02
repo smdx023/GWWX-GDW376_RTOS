@@ -428,10 +428,10 @@ void SPI_FLASH_PageRead(u8* pBuffer, u16 page )
   SPI_FLASH_SendByte(spiN, 0x00);
   while(NumByteToWrite--) 
   {
-  	if((pBuffer< AllBuf.St_Spi) || (pBuffer> AllBuf.En_Spi))  //;保护，不能超出缓冲区
-  	{ 
-  	    SPI_CS_High(FlashX); return; 
-  	}
+//  	if((pBuffer< AllBuf.St_Spi) || (pBuffer> AllBuf.En_Spi))  //;保护，不能超出缓冲区
+//  	{ 
+//  	    SPI_CS_High(FlashX); return; 
+//  	}
     *pBuffer=SPI_FLASH_ReadByte(spiN);
     pBuffer++; 
   }        

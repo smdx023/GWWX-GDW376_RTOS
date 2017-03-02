@@ -12,18 +12,26 @@
 #include <string.h>
 
 #include "store.h"
-#include "lib.h"
+//#include "lib.h"
+#include "GDW376_MMU.h"
+#include "printf.h"
 
 
-/* 存储器大小 8M */
-#define STA_ADDR_STORE   0x000000L
-#define END_ADDR_STORE   0x800000L
+#define CFG_DEBUG
+
+#ifdef CFG_DEBUG
+#define print(fmt,args...) kprintf(fmt, ##args)
+#else
+#define print(fmt,args...)
+#endif
 
 
 
-/* 参数保存地址 0x400 = 1K, 这里分配10K */
-#define STA_ADDR_STORE_PARAM   0x100000L
-#define END_ADDR_STORE_PARAM   0x103FFFL
+/* 参数保存地址 */
+#define STA_ADDR_STORE_PARAM   ((DLT104_PARAM_START) * PAGESIZE) //0x0FF5D0
+#define END_ADDR_STORE_PARAM   ((DLT104_PARAM_END) * PAGESIZE)   //0x100A70
+
+
 #define PARAM_MAX_NUM          100
 #define PARAM_MAX_SIZE         64
 
@@ -49,13 +57,13 @@ struct stroe_param
 /* 参数存储映射表 */
 const struct stroe_param_map param_map[PARAM_MAX_NUM] = 
 {
-    {"server_ip",    0x000000L,  16},
-    {"server_port",  0x000010L,  16},
-    {"client_port",  0x000020L,  16},
-    {"terminal_ip",  0x000030L,  16},
-    {"mac",          0x000040L,  16},
-    {"submask",      0x000050L,  16},    
-    {"gateway",      0x000060L,  16},
+    {"server_ip",    0x0FF5D0L,  16},
+    {"server_port",  0x0FF5E0L,  16},
+    {"client_port",  0x0FF5F0L,  16},
+    {"terminal_ip",  0x0FF600L,  16},
+    {"mac",          0x0FF610L,  16},
+    {"submask",      0x0FF620L,  16},    
+    {"gateway",      0x0FF630L,  16},
 };
 
 
@@ -115,7 +123,7 @@ static int __store_param_save(char *name, char *data, char len)
             
             param.len = len;
             memcpy(param.data, data, len);
-            param.cs = usMBCRC16((unsigned char *)param.data, len);
+            param.cs = Cal_CRC16((unsigned char *)param.data, len);
             
             len += 3; 
             ret = storage_write(addr, (char *)&param, len);
@@ -151,7 +159,7 @@ static int __store_param_read(char *name, char *data)
             len = storage_read(addr, (char *)&param, size);
             if ((len > 0) && (len <= size))
             {
-                cs = usMBCRC16((unsigned char *)param.data, param.len); 
+                cs = Cal_CRC16((unsigned char *)param.data, param.len); 
                 if ((cs == param.cs) && (cs != 0))               
                 {           
                     len = param.len;
@@ -251,5 +259,19 @@ int store_param_read(char *name, char *data)
 	}
 
 	return len;
+}
+
+
+
+int test(void)
+{
+	char data[20] = {0};
+	
+	print("STA_ADDR_STORE_PARAM = %X\r\n",STA_ADDR_STORE_PARAM);
+	print("STA_ADDR_STORE_PARAM = %X\r\n",END_ADDR_STORE_PARAM);
+	
+	store_param_save("server_ip", "192.168.1.1", 13);
+	store_param_read("server_ip", data);
+	
 }
 

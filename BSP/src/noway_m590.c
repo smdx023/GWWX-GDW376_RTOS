@@ -714,25 +714,25 @@ int m590_tcp_link(struct m590tcp *tcp)
 		return -1;
 	
 	if (at_cgdcont(tcp->apn) < 0)
-		return -1;
+		return -2;
 
 	if (at_xiic_write() < 0)
-		return -1;
+		return -3;
 	
 	/* ppp link */
 	for (i = 0; i < 30; i++) {
 		if (at_xiic_read(tcp->gprsstat, tcp->localip) < 0)
-			return -1;
+			return -4;
 		if (tcp->gprsstat[0] == '1')
 			break;
 		if (i >= 29)
-			return -1;
+			return -5;
 		DELAYMS(2000);
 	}
 
 	ret = at_tcpsetup_write(tcp->severip, tcp->severport);
 	if (ret < 0)
-		return -1;
+		return -6;
 	
 	
 	return 0;

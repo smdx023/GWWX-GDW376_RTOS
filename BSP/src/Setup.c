@@ -465,7 +465,7 @@ void USART_Configuration(void)
     USART_ITConfig(USART3, USART_IT_RXNE, ENABLE);
     USART_Cmd(USART3, ENABLE);
 
-#ifdef PORT2USART    
+//#ifdef PORT2USART    
     /*USART4*/
 //;    GPIO_PinRemapConfig(GPIO_FullRemap_USART3, ENABLE);
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;   
@@ -477,24 +477,24 @@ void USART_Configuration(void)
     GPIO_Init(GPIOC, &GPIO_InitStructure);
 
     USART_ClockInit(UART4, &USART_ClockInitStructure); //;”ÎUSART1œ‡Õ¨
-    USART_InitStructure.USART_BaudRate = 9600;
-    USART_InitStructure.USART_WordLength = USART_WordLength_9b;
+    USART_InitStructure.USART_BaudRate = 115200;
+    USART_InitStructure.USART_WordLength = USART_WordLength_8b;
     USART_InitStructure.USART_StopBits = USART_StopBits_1;
-    USART_InitStructure.USART_Parity = USART_Parity_Even;
+    USART_InitStructure.USART_Parity = USART_Parity_No;
     USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
     USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
     USART_Init(UART4, &USART_InitStructure);
     USART_ITConfig(UART4, USART_IT_RXNE, ENABLE);
     USART_Cmd(UART4, ENABLE);
-#else
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;   
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_Init(GPIOC, &GPIO_InitStructure);
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_Init(GPIOC, &GPIO_InitStructure);
-#endif    
+//#else
+//    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;   
+//    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+//    GPIO_Init(GPIOC, &GPIO_InitStructure);
+//    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
+//    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+//    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+//    GPIO_Init(GPIOC, &GPIO_InitStructure);
+//#endif    
     
     /*USART5*/
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;

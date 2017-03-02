@@ -33,7 +33,7 @@
 
 
 #ifdef CONFIG_PRINT
-#define print(fmt,args...)  printf(fmt, ##args)
+#define print(fmt,args...)  bsp_printf(fmt, ##args)
 #else
 #define print(fmt,args...)
 #endif
@@ -62,6 +62,29 @@ static	OS_STK	  App_Task_Gprs_Stk[APP_CFG_TASK_GPRS_STK_SIZE];
 static	OS_STK	  App_Task_GDW376_Stk[APP_CFG_TASK_GDW376_STK_SIZE];
 static	OS_STK	  App_Task_DatPro_Stk[APP_CFG_TASK_DATPRO_STK_SIZE];
 static	OS_STK	  App_Task_Fre_Stk[APP_CFG_TASK_FRE_STK_SIZE];
+
+
+
+
+
+
+#include "GDW376_MMU.h"
+void show_log(void)
+{
+	print("\r\n\r\n");
+	print("\r\n\r\n");
+	print("\r\n**********************************************************************");
+	print("\r\n*                                                                    *");
+	print("\r\n*                                                                    *");
+	print("\r\n*                                                                    *");
+	print("\r\n*               collect meter APP  (Version 1.0.0)                   *");
+	print("\r\n*                                                                    *");
+	print("\r\n*                                         2017-11-20                 *");
+	print("\r\n*                                                                    *");
+	print("\r\n**********************************************************************");
+	print("\r\n");
+}
+
 
 
 /******************************************************************************
@@ -277,6 +300,10 @@ static void App_TaskStart (void *p_arg)
 
 	OS_CPU_SysTickInit();
 
+	App_EventCreate();
+	
+	show_log();
+	
 	ZD_RAM_MAK();	  //;Ð´Èë¼ì²â×Ö
 
 	CS_Read();	  //;¶Á³öÖÕ¶ËµÄ²ÎÊý
@@ -285,7 +312,7 @@ static void App_TaskStart (void *p_arg)
 
 	ZD_Stat_Init();	  //;³õÊ¼»¯ÖÕ¶Ë×´Ì¬
 
-	App_EventCreate();
+	
 
 	App_TaskCreate();
 

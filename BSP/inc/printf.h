@@ -11,5 +11,5 @@
 
 extern int print_init(void);
 extern int kprintf(const char *fmt, ...);
-
+extern int bsp_printf(const char *fmt, ...);
 #endif

@@ -13,6 +13,17 @@
 #include "GDW376_CFG.h"
 #include "task_wlan.h"
 #include "task_ptl.h"
+#include "printf.h"
+
+
+#define CFG_DEBUG
+
+#ifdef CFG_DEBUG
+#define print(fmt,args...) kprintf(fmt, ##args)
+#else
+#define print(fmt,args...)
+#endif
+
 
 
 /* WLAN缓存区大小 */
@@ -115,11 +126,13 @@ static int wlan_tcp_client(struct wlan_info *info)
 	/* 模块初始化 */
         ret = m590_init();
         if (ret < 0) {
+		print("m590_init error[%d]!\r\n", ret);
                 return -1;
         }
 
         ret = m590_config(&info->cfg);
         if (ret < 0) {
+		print("m590_config error[%d]!\r\n", ret);
                 return -1;
         }
       
@@ -132,9 +145,13 @@ static int wlan_tcp_client(struct wlan_info *info)
 	info->tcp.severport = 34299;
 	strcpy(info->tcp.apn, "CMNET\0");
 	
+	print("m590_tcp_link ip:%s!\r\n", info->tcp.severip);
+	print("m590_tcp_link port:%d!\r\n", info->tcp.severport);
+	
 	/* 建立TCP连接 */
         ret = m590_tcp_link(&info->tcp);
         if (ret < 0) {
+		print("m590_tcp_link error[%d]!\r\n", ret);
                 return -1;
         }
 	
@@ -159,10 +176,12 @@ static int wlan_tcp_client(struct wlan_info *info)
                 	if (time > 1000) {
                 	        time = 0;
                 	        info->link_status = 0;
+				print("m590 tcp comm ovt!\r\n");
 				return -1;
                 	}		
 		}  else {
 			info->link_status = 0;
+			print("m590_read error[%d]!\r\n", len);
 			return -1;
 		}	
 		
@@ -173,6 +192,7 @@ static int wlan_tcp_client(struct wlan_info *info)
                		ret = m590_write(buff, len);
 			if (ret < 0) {
 				info->link_status = 0;
+				print("m590_write error[%d]!\r\n", ret);
                			return -1;
 			}
                	}

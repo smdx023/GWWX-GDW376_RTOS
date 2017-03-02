@@ -197,7 +197,14 @@
 
 #define FLASH_TEST PnDJEND+1            //;by zrt 20130904  增加flash测试
 
-#define FLASHENDPAGE  FLASH_TEST
+
+//分配10页用于保存DLT104规约参数@like
+#define DLT104_PARAM_START  FLASH_TEST
+#define DLT104_PARAM_END  (DLT104_PARAM_START + 10)
+
+
+#define FLASHENDPAGE  DLT104_PARAM_END
+
 #if FLASHENDPAGE > PAGECOUNT
     #error "More than total FLASHPAGE "
 #endif
