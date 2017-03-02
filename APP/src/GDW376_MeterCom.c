@@ -15,7 +15,7 @@
 */
 #include "GDW376_CFG.h"
 
-static u8 GprsSign;
+u8 GprsSign;
 
 /*检测残端参数F10的表号1的参数当前电表表号*/
 u8 MeterNumChk(void *save, void *now)

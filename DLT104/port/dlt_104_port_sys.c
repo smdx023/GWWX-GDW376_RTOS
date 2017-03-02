@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "GDW376_CFG.h"
+#include "store.h"
 
 //#include "file_dir.h"
 #define CFG_DEBUG
@@ -154,7 +155,7 @@ int dlt_104_save_file_segment(char *file_name,
 static unsigned char get_point_param(char *buff, unsigned long point_addr, 
 				unsigned char SN)
 {
-	unsigned char len = 0;
+	//unsigned char len = 0;
 	
 	switch (point_addr) {
 	case 0x8001:

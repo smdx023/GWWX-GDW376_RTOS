@@ -275,7 +275,8 @@ static int freeze_coller_day_time_up(unsigned char minute, unsigned char hour,
 {
 	static unsigned old_minute = 0xFF;
 	u32 ch1 = 0, ch2 = 1;
-	u8 i, Day, Hour, Min;
+	u8 i, Hour, Min;
+        //Day, 
 
 	if (minute != old_minute) {
 		old_minute = minute;
@@ -284,7 +285,7 @@ static int freeze_coller_day_time_up(unsigned char minute, unsigned char hour,
 		Hour = ZDP.F33.PortP[0].RTime[1];
 
 		/* 获取当前系统的日期*/
-		Day = TBCD.Day;
+		//Day = TBCD.Day;
 
 		/* 计算出抄表日 */
 		ch1 |= ZDP.F33.PortP[0].RDay[3];

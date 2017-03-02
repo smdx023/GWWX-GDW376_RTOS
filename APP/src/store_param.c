@@ -191,7 +191,7 @@ int store_param_save(char *name, char *data, unsigned char data_len)
 
 
 
-static int store_param_default_write(char *name)
+static int store_param_default(char *name)
 {
 	unsigned char len;
 	char *pdata;

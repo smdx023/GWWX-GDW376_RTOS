@@ -11,6 +11,8 @@
 #include "Serial.h"
 #include "GDW376_CFG.h"
 
+
+
 //#define CFG_DEBUG
 
 #ifdef CFG_DEBUG
@@ -31,6 +33,13 @@ struct meter_ctl {
 	unsigned long DI1DI0;
 	unsigned char meter_addr[6];
 };
+
+
+extern u8 MeterNumChk(void *save, void *now);
+extern u8 DL645_CHK(char *Buf_In, u8 Buf_Len);
+extern u8 f_is_sole_data (u8 b8_buf[],u8 b8_byte);
+extern void ZDCB_MovDataDI(char *Order_address, struct MeterData *PMD, struct PortCtrl *Port);
+extern void ZDCB_MovDataPn(u8 pn, u8 gytype, struct MeterData *PMD);
 
 
 static int collect_meter_flash(void )
@@ -190,7 +199,7 @@ static int meter_frame_send(unsigned char *txbuf, int len)
 {
 	int ret;
 	
-	ret = uart5_send_byte(txbuf, len);
+	ret = uart5_send_byte((char *)txbuf, len);
 	collect_meter_flash();
 	if (ret < 0)
 		return -1;
@@ -205,7 +214,7 @@ static int meter_frame_receive(unsigned char *rxbuf, int size, int ovt_s)
 	int ovt_ms = ovt_s * 1000;
 
 	while (ovt_ms --) {
-		len = uart5_receive_packet(rxbuf, size, 100);
+		len = uart5_receive_packet((char *)rxbuf, size, 100);
 		if (len > 0) {
 			collect_meter_flash();
 			break;
@@ -226,7 +235,7 @@ static int collect_meter_frame_unpack(struct meter_ctl *ctl, unsigned long DI1DI
 	struct PortCtrl *Port = &Port1;
 
 	/* 检测是不是645报文 */
-	Len = DL645_CHK(rxbuf, len);
+	Len = DL645_CHK((char *)rxbuf, len);
 	if (Len != 0xFF) {
 		/* 表号是否一致 */
 		if (MeterNumChk(ZDP.F10.Meter[0].Addr, rxbuf + Len + 1)) {
@@ -260,7 +269,7 @@ static int collect_meter_frame_unpack(struct meter_ctl *ctl, unsigned long DI1DI
 		Port->GYType = ctl->ptl_type;
 		Port->IndSend = ctl->send_index;
 		Port->DI1DI0 = DI1DI0;
-		ZDCB_MovDataDI(rxbuf + Len, &PMD1, Port); //;将从端口接收到的数据写入到PMD区
+		ZDCB_MovDataDI((char *)rxbuf + Len, &PMD1, Port); //;将从端口接收到的数据写入到PMD区
 		return 1;
 	}
 	
@@ -275,7 +284,7 @@ static int colleter_meter(struct meter_ctl *ctl, unsigned char index)
 	unsigned long ComTab_Head, DI1DI0;
 	unsigned char buff[256] = {0};
 	char no_ack_num = 0;
-	int len, ret, size;
+	int len, ret;
         
 	/* 根据通信协议，获取DI表格的地址头 */
 	if (ctl->ptl_type == GYType2007) {
@@ -331,6 +340,7 @@ static int colleter_meter(struct meter_ctl *ctl, unsigned char index)
 static int copy_meter_data_to_point(struct meter_ctl *ctl)
 {
 	ZDCB_MovDataPn(ctl->pn - 1, ctl->ptl_type, &PMD1);
+        return 0;
 }
 
 
@@ -353,6 +363,8 @@ int collect_meter_process(unsigned char *collect_time, unsigned char meter_index
 	ret = copy_meter_data_to_point(&ctl);
 	if (ret < 0)
 		return -1;
+        
+        return 0;
 }
 
 
@@ -384,7 +396,7 @@ static int config_meter_frame_pack(unsigned char *txbuf, unsigned char DI1DI0,
 	struct PortCtrl *Port = &Port1;
 	extern	u8 GprsSign;
 
-	Port->Buffer = txbuf;
+	Port->Buffer = (char *)txbuf;
 	Port->GYType = ptl;
 	DI = DI1DI0;
 
@@ -636,7 +648,7 @@ static int config_meter_frame_unpack(struct meter_ctl *ctl, unsigned long DI1DI0
 	unsigned char Len;
 	
 	/* 645帧链路层正确性检测 */
-	Len = DL645_CHK(rxbuf, len);
+	Len = DL645_CHK((char *)rxbuf, len);
 	if (Len != 0xFF) {
              /* 设表成功 */
 	     if ((*(rxbuf + 8 + Len) == 0x84)||(*(rxbuf + 8 + Len) == 0x94))
@@ -659,7 +671,7 @@ int config_meter(unsigned long *di, unsigned char di_num,
 	for (i = 0; i < di_num; i++) {
 
 		/* 根据DI封装设表645报文帧 */
-		len = collect_meter_frame_pack(buff, di[i], ctl->ptl_type);
+		len = config_meter_frame_pack(buff, di[i], ctl->ptl_type);
 		if (len > 0) {
 			
 			/* 发送报文 */

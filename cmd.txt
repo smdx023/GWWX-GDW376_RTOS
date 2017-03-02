@@ -1,0 +1,4 @@
+//使用ctags 生成 ctags文件
+ctags --langmap=c:+.h --languages=c -R
+
+

@@ -21,6 +21,6 @@ struct WlanMsgStr
 
 extern OS_EVENT *WlanMboxFd;
 extern void App_Task_Wlan(void *p_arg);
- 
+extern int wlan_info_link_status(void);
  
  #endif

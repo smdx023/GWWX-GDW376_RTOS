@@ -25,7 +25,7 @@
 #include "task_meter.h"
 #include "task_freeze.h"
 #include "task_dat_pro.h"
-
+#include "printf.h"
 
 
 #define CONFIG_PRINT
@@ -141,7 +141,7 @@ int task_main(void)
 *******************************************************************************/
 static void App_EventCreate (void)
 {
-	;
+          print_init();
 }
 
 
@@ -198,18 +198,18 @@ static void App_TaskCreate (void)
 			(INT32U		 ) APP_CFG_TASK_DATPRO_STK_SIZE,
 			(void		*) 0,
 			(INT8U		 )(OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR));
-//
-//
-//	/* 数据冻结 */
-//	OSTaskCreateExt((void (*)(void *)) App_Task_Freeze,
-//			(void		*) 0,
-//			(OS_STK		*)&App_Task_Fre_Stk[APP_CFG_TASK_FRE_STK_SIZE - 1],
-//			(INT8U		 ) APP_CFG_TASK_FRE_PRIO,
-//			(INT16U		 ) APP_CFG_TASK_FRE_PRIO,
-//			(OS_STK		*)&App_Task_Fre_Stk[0],
-//			(INT32U		 ) APP_CFG_TASK_FRE_STK_SIZE,
-//			(void		*) 0,
-//			(INT8U		 )(OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR));
+
+
+	/* 数据冻结 */
+	OSTaskCreateExt((void (*)(void *)) App_Task_Freeze,
+			(void		*) 0,
+			(OS_STK		*)&App_Task_Fre_Stk[APP_CFG_TASK_FRE_STK_SIZE - 1],
+			(INT8U		 ) APP_CFG_TASK_FRE_PRIO,
+			(INT16U		 ) APP_CFG_TASK_FRE_PRIO,
+			(OS_STK		*)&App_Task_Fre_Stk[0],
+			(INT32U		 ) APP_CFG_TASK_FRE_STK_SIZE,
+			(void		*) 0,
+			(INT8U		 )(OS_TASK_OPT_STK_CHK | OS_TASK_OPT_STK_CLR));
 
 
 }

@@ -561,14 +561,14 @@ int m590_config(struct m590info *info)
 	if (at_cgsn_exec(info->imei))
 		return -3;
 	
-//	/* 读取SIM的IMSI串号, 检测SIM卡是否就位 */
-//	for (i = 0; i < 10; i++) {
-//		if (at_ccid_read(info->imsi) == 0)
-//			break;
-//		if (i >= 9)
-//			return -4;
-//		DELAYMS(1000);
-//	}
+	/* 读取SIM的IMSI串号, 检测SIM卡是否就位 */
+	for (i = 0; i < 10; i++) {
+		if (at_ccid_read(info->imsi) == 0)
+			break;
+		if (i >= 9)
+			return -4;
+		DELAYMS(1000);
+	}
 
 	/* 检测SIM卡PIN码是否鉴权成功 */
 	for (i = 0; i < 10; i++)  {

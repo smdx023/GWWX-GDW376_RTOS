@@ -604,6 +604,28 @@ int uart2_send_byte(char *txbuf, int size)
 
 
 
+int uart4_send_byte(char *txbuf, int size)
+{
+	int i;
+	char ove_ms;
+	
+	for (i = 0; i < size; i++) {
+		USART_SendData(UART4, (u16)txbuf[i]);		
+		ove_ms = 50;
+		while (USART_GetFlagStatus(UART4, USART_FLAG_TXE) == RESET) {
+			ove_ms--;
+			if (ove_ms == 0)
+				return -1;			
+			OSTimeDly(1);
+		}			
+	}
+	
+	return 0;
+}
+
+
+
+
 int uart5_send_byte(char *txbuf, int size)
 {
 	int i;

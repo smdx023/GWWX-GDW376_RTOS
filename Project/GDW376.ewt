@@ -2389,6 +2389,9 @@
       <name>$PROJ_DIR$\..\BSP\src\noway_m590.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\BSP\src\printf.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\BSP\src\Serial.c</name>
     </file>
     <file>

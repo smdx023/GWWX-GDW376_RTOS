@@ -47,6 +47,8 @@ extern int uart2_receive_packet(char *rxbuf, int size,
 extern int uart1_write(char *txbuf, int size);
 extern int uart1_read(char *rxbuf, int size, int ovt_ms);
 
+extern int uart4_send_byte(char *txbuf, int size);
+
 extern int uart5_send_byte(char *txbuf, int size);
 extern int uart5_receive_packet(char *rxbuf, int size, 
 				unsigned short interval_ms);

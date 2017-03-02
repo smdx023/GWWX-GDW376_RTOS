@@ -126,7 +126,7 @@ int dlt_104_frame_read(unsigned char port, char *frame, char *rxbuf, int *rxlen)
 	char *head = 0;
 	char type;
 	struct dlt_lib *arg = &dlt_lib_arg[port];
-	unsigned char NS = 0;
+//	unsigned char NS = 0;
 
 	/* ÕÒ104±¨ÎÄÍ· */
 	for (i = 0; i < len; i++) {
@@ -177,7 +177,7 @@ int dlt_104_frame_read(unsigned char port, char *frame, char *rxbuf, int *rxlen)
 			print_frame(0, head, L + 2, 'R');
 #endif			
 			/* get frame send index */
-			NS = (head[3] * 0x100 + head[2]) << 1;
+			//NS = (head[3] * 0x100 + head[2]) << 1;
 			//if (NS >= arg->NR) {			
 				arg->NR++;
 				Print("right frame\r\n");
