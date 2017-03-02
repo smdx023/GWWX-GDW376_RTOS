@@ -26,6 +26,7 @@
 #include "task_freeze.h"
 #include "task_dat_pro.h"
 #include "printf.h"
+#include "store.h"
 
 
 #define CONFIG_PRINT
@@ -142,6 +143,7 @@ int task_main(void)
 static void App_EventCreate (void)
 {
           print_init();
+          storage_init();
 }
 
 

@@ -16,7 +16,7 @@ OS_EVENT *SemPrint;
 
 int print_init(void)
 {
-	SemPrint = OSSemCreate (0);
+	SemPrint = OSSemCreate (1);
 	if (SemPrint == 0)
 		return -1;
 	return 0;
@@ -31,7 +31,7 @@ int kprintf(const char *fmt, ...)
 	char rt_log_buf[128];
 	INT8U perr;
 
-	OSSemPend (SemPrint, 500, &perr);
+	OSSemPend (SemPrint, 0, &perr);
 	if (perr != OS_ERR_NONE)
 		return -1;
 

@@ -16,5 +16,8 @@ extern unsigned short crc16(char *buf, int len);
 extern int storage_read(unsigned long add, char *data, int size);
 extern int storage_write(unsigned long add, char *data, int size);
 extern int store_param_save(char *name, char *data, unsigned char data_len);
+extern int storage_init(void);
+extern int storage_write(unsigned long addr, char *data, int size);
+extern int storage_read(unsigned long addr, char *data, int size);
 
 #endif /* _STORE_ */

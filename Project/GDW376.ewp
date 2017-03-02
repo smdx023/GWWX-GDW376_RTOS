@@ -1983,9 +1983,6 @@
       <name>$PROJ_DIR$\..\APP\src\Main.C</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\APP\src\store.c</name>
-    </file>
-    <file>
       <name>$PROJ_DIR$\..\APP\src\store_param.c</name>
     </file>
     <file>
@@ -2032,6 +2029,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\BSP\src\stm32f10x_it.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\BSP\src\store.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\BSP\src\USERMATH.c</name>
