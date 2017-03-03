@@ -289,7 +289,7 @@ int set_point_param(char *asdu_data, unsigned char asdu_len,
 		break;
 
 	case 0x8021:  /* 交流电压死区 */
-		ret = store_param_save("0x8020", asdu_data, asdu_len);
+		ret = store_param_save("0x8021", asdu_data, asdu_len);
 		break;
 
 	default:

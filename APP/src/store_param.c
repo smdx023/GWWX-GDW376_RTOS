@@ -57,13 +57,36 @@ struct stroe_param
 /* 参数存储映射表 */
 const struct stroe_param_map param_map[PARAM_MAX_NUM] = 
 {
-    {"server_ip",    0x0FF5D0L,  16},
-    {"server_port",  0x0FF5E0L,  16},
-    {"client_port",  0x0FF5F0L,  16},
-    {"terminal_ip",  0x0FF600L,  16},
-    {"mac",          0x0FF610L,  16},
-    {"submask",      0x0FF620L,  16},    
-    {"gateway",      0x0FF630L,  16},
+    /* 终端固有参数信息体地址分配表 */
+    {"0x8001",  0x0FF5D0L,  16}, /* 终端类型 */
+    {"0x8002",  0x0FF5E0L,  16}, /* 终端操作系统 */
+    {"0x8003",  0x0FF5F0L,  16}, /* 终端制造商 */
+    {"0x8004",  0x0FF600L,  16}, /* 终端硬件版本 */
+    {"0x8005",  0x0FF610L,  16}, /* 终端软件版本 */
+    {"0x8006",  0x0FF620L,  16}, /* 终端软件版本校验码 */   
+    {"0x8007",  0x0FF630L,  16}, /* 终端通信规约类型 */
+    {"0x8008",  0x0FF640L,  16}, /* 终端出厂型号 */    
+    {"0x8009",  0x0FF650L,  16}, /* 终端ID号 */  
+    {"0x800A",  0x0FF660L,  16}, /* 终端网卡MAC地址 */  
+    
+     /* 终端运行参数信息体地址 */
+    {"0x8026",  0x0FF670L,  16}, /* PT一次额定 */
+    {"0x8027",  0x0FF680L,  16}, /* PT二次额定 */  
+
+     /* 终端动作定值信息体地址 */
+    {"0x8824",  0x0FF690L,  16}, /* X时间定值 */
+    {"0x8825",  0x0FF6A0L,  16}, /* Y时间定值 */
+    {"0x8826",  0x0FF6B0L,  16}, /* C时间定值 */
+    {"0x8827",  0x0FF6C0L,  16}, /* S时间定值 */
+};
+
+
+/* 104规约参数 */
+struct dlt_param
+{
+	unsigned char tag;
+	unsigned char len;
+        unsigned char val[64];  
 };
 
 
@@ -73,27 +96,20 @@ struct param_default_tab
 {
     char *name;
     unsigned char len;
-    char data[PARAM_MAX_SIZE]; 
+    struct dlt_param data;
 };
 
 
 
-/* 可写参数的出厂默认值 */
+/* 参数的出厂默认值 */
 const struct param_default_tab param_default[PARAM_MAX_NUM] = 
 {
-	{"server_ip",   11, {"192.168.1.1"} },
-	{"server_port",  4,  {"2024"} },
+	{"0x8001",   7,  {4,  5,   "GYDLB"} },  	/* 终端类型 */
+	{"0x8002",   4,  {4,  7,   "uCOS-II"} },  	/* 终端操作系统 */
 };
 
 
-
-/* 只读参数 */
-const struct param_default_tab param_config[PARAM_MAX_NUM] = 
-{
-	{"sys",      11,    {"uCOS-II"} },
-	{"softver",  4,     {"V1.00.00"} },
-};
-
+extern u16 Cal_CRC16(const u8* data, u32 size);
 
 
 
@@ -210,7 +226,7 @@ static int store_param_default(char *name)
         	if (strcmp(name, param_default[i].name) == 0) {
 			
 			len = param_default[i].len;
-			pdata = (char *)param_default[i].data;
+			pdata = (char *)&param_default[i].data;
 			
 			ret = __store_param_save(name, pdata, len);
 			if (ret == 0)
@@ -223,26 +239,26 @@ static int store_param_default(char *name)
 
 
 
-/* 读取终端的配置参数 */
-int store_param_config(char *name, char *data)
-{
-	unsigned char len;
-	char *pdata;
-   	int i;
-        
-    	for (i = 0; i < PARAM_MAX_NUM; i++) {
-        	if (strcmp(name, param_config[i].name) == 0) {
-			
-			len = param_config[i].len;
-			pdata = (char *)param_config[i].data;
-			
-			memcpy(data, pdata, len);
-			return len;
-		}
-        }
-    
-    	return 0;
-}
+///* 读取终端的配置参数 */
+//int store_param_config(char *name, char *data)
+//{
+//	unsigned char len;
+//	char *pdata;
+//   	int i;
+//        
+//    	for (i = 0; i < PARAM_MAX_NUM; i++) {
+//        	if (strcmp(name, param_config[i].name) == 0) {
+//			
+//			len = param_config[i].len;
+//			pdata = (char *)param_config[i].data;
+//			
+//			memcpy(data, pdata, len);
+//			return len;
+//		}
+//        }
+//    
+//    	return 0;
+//}
 
 
 
@@ -263,15 +279,15 @@ int store_param_read(char *name, char *data)
 
 
 
-int test(void)
-{
-	char data[20] = {0};
-	
-	print("STA_ADDR_STORE_PARAM = %X\r\n",STA_ADDR_STORE_PARAM);
-	print("STA_ADDR_STORE_PARAM = %X\r\n",END_ADDR_STORE_PARAM);
-	
-	store_param_save("server_ip", "192.168.1.1", 13);
-	store_param_read("server_ip", data);
-	
-}
+//int test(void)
+//{
+//	char data[20] = {0};
+//	
+//	print("STA_ADDR_STORE_PARAM = %X\r\n",STA_ADDR_STORE_PARAM);
+//	print("STA_ADDR_STORE_PARAM = %X\r\n",END_ADDR_STORE_PARAM);
+//	
+//	store_param_save("server_ip", "192.168.1.1", 13);
+//	store_param_read("server_ip", data);
+//	
+//}
 

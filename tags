@@ -702,18 +702,18 @@ APMax	.\APP\inc\GDW376_DataType.h	/^    u8 APMax[3],APMax_T[3];   \/\/;A×î´óÓÐ¹¦
 APMax_T	.\APP\inc\GDW376_DataType.h	/^    u8 APMax[3],APMax_T[3];   \/\/;A×î´óÓÐ¹¦¹¦ÂÊ¼°·¢ÉúÊ±¼ä$/;"	m	struct:DF25DF33Str
 APN	.\APP\inc\GDW376_DataType.h	/^    char APN[16];$/;"	m	struct:ZDPStr_F3
 APN	.\BSP\inc\BSP_CFG.h	/^    char *APN;$/;"	m	struct:ModemContrl
-APP_CFG_TASK_CB_PRIO	.\APP\src\Main.C	51;"	d	file:
-APP_CFG_TASK_CB_STK_SIZE	.\APP\src\Main.C	43;"	d	file:
-APP_CFG_TASK_DATPRO_PRIO	.\APP\src\Main.C	54;"	d	file:
-APP_CFG_TASK_DATPRO_STK_SIZE	.\APP\src\Main.C	46;"	d	file:
-APP_CFG_TASK_FRE_PRIO	.\APP\src\Main.C	55;"	d	file:
-APP_CFG_TASK_FRE_STK_SIZE	.\APP\src\Main.C	47;"	d	file:
-APP_CFG_TASK_GDW376_PRIO	.\APP\src\Main.C	53;"	d	file:
-APP_CFG_TASK_GDW376_STK_SIZE	.\APP\src\Main.C	45;"	d	file:
-APP_CFG_TASK_GPRS_PRIO	.\APP\src\Main.C	52;"	d	file:
-APP_CFG_TASK_GPRS_STK_SIZE	.\APP\src\Main.C	44;"	d	file:
-APP_CFG_TASK_START_PRIO	.\APP\src\Main.C	50;"	d	file:
-APP_CFG_TASK_START_STK_SIZE	.\APP\src\Main.C	42;"	d	file:
+APP_CFG_TASK_CB_PRIO	.\APP\src\Main.C	52;"	d	file:
+APP_CFG_TASK_CB_STK_SIZE	.\APP\src\Main.C	44;"	d	file:
+APP_CFG_TASK_DATPRO_PRIO	.\APP\src\Main.C	55;"	d	file:
+APP_CFG_TASK_DATPRO_STK_SIZE	.\APP\src\Main.C	47;"	d	file:
+APP_CFG_TASK_FRE_PRIO	.\APP\src\Main.C	56;"	d	file:
+APP_CFG_TASK_FRE_STK_SIZE	.\APP\src\Main.C	48;"	d	file:
+APP_CFG_TASK_GDW376_PRIO	.\APP\src\Main.C	54;"	d	file:
+APP_CFG_TASK_GDW376_STK_SIZE	.\APP\src\Main.C	46;"	d	file:
+APP_CFG_TASK_GPRS_PRIO	.\APP\src\Main.C	53;"	d	file:
+APP_CFG_TASK_GPRS_STK_SIZE	.\APP\src\Main.C	45;"	d	file:
+APP_CFG_TASK_START_PRIO	.\APP\src\Main.C	51;"	d	file:
+APP_CFG_TASK_START_STK_SIZE	.\APP\src\Main.C	43;"	d	file:
 APow_CAL	.\APP\src\GDW376_MeterCom.c	/^void APow_CAL(u8 index)$/;"	f
 AR	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	/^  __IO uint32_t AR;$/;"	m	struct:__anon27
 AR2	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	/^  __IO uint32_t AR2; $/;"	m	struct:__anon27
@@ -1011,7 +1011,7 @@ BVMini_T	.\APP\inc\GDW376_DataType.h	/^    u8 BVMax[2],BVMax_T[3],BVMini[2],BVMi
 BVUMin	.\APP\inc\GDW376_DataType.h	/^    u8 BVUUMin[2], BVLLMin[2], BVUMin[2], BVLMin[2], BVHGMin[2];  \/\/;BÏàµçÑ¹Í³¼Æ$/;"	m	struct:DF27F35Str
 BVUUMin	.\APP\inc\GDW376_DataType.h	/^    u8 BVUUMin[2], BVLLMin[2], BVUMin[2], BVLMin[2], BVHGMin[2];  \/\/;BÏàµçÑ¹Í³¼Æ$/;"	m	struct:DF27F35Str
 BWTR	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	/^  __IO uint32_t BWTR[7];$/;"	m	struct:__anon30
-BZByteNum	.\APP\inc\GDW376_MMU.h	222;"	d
+BZByteNum	.\APP\inc\GDW376_MMU.h	229;"	d
 Bao1	.\APP\inc\GDW376_DataType.h	/^    u8  Bao1,Bao2, Bao3;$/;"	m	struct:GprsToMeter
 Bao2	.\APP\inc\GDW376_DataType.h	/^    u8  Bao1,Bao2, Bao3;$/;"	m	struct:GprsToMeter
 Bao3	.\APP\inc\GDW376_DataType.h	/^    u8  Bao1,Bao2, Bao3;$/;"	m	struct:GprsToMeter
@@ -2411,12 +2411,15 @@ CFGR_PPRE2_Set_Mask	.\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_rcc.c	1
 CFGR_SWS_Mask	.\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_rcc.c	136;"	d	file:
 CFGR_SW_Mask	.\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_rcc.c	137;"	d	file:
 CFGR_USBPRE_BB	.\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_rcc.c	80;"	d	file:
+CFG_DEBUG	.\APP\src\store_param.c	20;"	d	file:
+CFG_DEBUG	.\APP\src\task_freeze.c	16;"	d	file:
+CFG_DEBUG	.\APP\src\task_wlan.c	19;"	d	file:
 CFG_DEBUG	.\DLT104\DLT104\dlt_104_misc.c	21;"	d	file:
 CFG_DEBUG	.\DLT104\DLT104\dlt_104_param.c	20;"	d	file:
 CFG_DEBUG	.\DLT104\DLT104\dlt_104_soe.c	20;"	d	file:
 CFG_DEBUG	.\DLT104\port\dlt_104_port_com.c	28;"	d	file:
 CFG_DEBUG	.\DLT104\port\dlt_104_port_com.c	38;"	d	file:
-CFG_DEBUG	.\DLT104\port\dlt_104_port_sys.c	16;"	d	file:
+CFG_DEBUG	.\DLT104\port\dlt_104_port_sys.c	17;"	d	file:
 CFG_SYS_UCOS	.\DLT104\inc\dlt_104_cfg.h	12;"	d
 CFP0F100	.\APP\src\GDW376_Table.c	988;"	d	file:
 CFP0F101	.\APP\src\GDW376_Table.c	989;"	d	file:
@@ -2502,7 +2505,7 @@ COMLIGHTON	.\BSP\inc\BSP_CFG.h	215;"	d
 COM_RXBUF_SIZE	.\DLT104\port\dlt_104_port_com.c	40;"	d	file:
 COM_TXBUF_SIZE	.\DLT104\port\dlt_104_port_com.c	41;"	d	file:
 CON	.\APP\inc\GDW376_DataType.h	/^    u8  CON;       \/\/;ÐèÒªÖ÷Õ¾È·ÈÏµÄ±êÖ¾$/;"	m	struct:ZDPStr_F1
-CONFIG_PRINT	.\APP\src\Main.C	31;"	d	file:
+CONFIG_PRINT	.\APP\src\Main.C	32;"	d	file:
 COT	.\DLT104\DLT104\dlt_104_param.c	/^	char COT;$/;"	m	struct:param_process	file:
 CP0Min	.\APP\inc\GDW376_DataType.h	/^    u8 CP0Min[2];   \/\/;×ÜABCÓÐ¹¦¹¦ÂÊÎª0µÄ³ÖÐøÊ±¼ä$/;"	m	struct:DF25DF33Str
 CPAR	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	/^  __IO uint32_t CPAR;$/;"	m	struct:__anon23
@@ -3216,6 +3219,8 @@ DL645_CHK	.\APP\src\GDW376_MeterCom.c	/^u8 DL645_CHK(char *Buf_In, u8 Buf_Len)$/
 DLC	.\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_can.h	/^  uint8_t DLC;     \/*!< Specifies the length of the frame that will be received.$/;"	m	struct:__anon51
 DLC	.\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_can.h	/^  uint8_t DLC;     \/*!< Specifies the length of the frame that will be transmitted.$/;"	m	struct:__anon50
 DLEN	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	/^  __IO uint32_t DLEN;$/;"	m	struct:__anon41
+DLT104_PARAM_END	.\APP\inc\GDW376_MMU.h	203;"	d
+DLT104_PARAM_START	.\APP\inc\GDW376_MMU.h	202;"	d
 DLY05H	.\APP\inc\GDW376_DataType.h	/^    u8 DLY05H;$/;"	m	struct:GroupStr_F42
 DLYSec	.\APP\inc\GDW376_DataType.h	/^    u8 DLYSec;$/;"	m	struct:PoPStr_F74
 DMA1	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	1365;"	d
@@ -3713,6 +3718,7 @@ Data0	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	/^  __IO uint
 Data1	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	/^  __IO uint16_t Data1;$/;"	m	struct:__anon28
 DataLightMs	.\BSP\inc\BSP_CFG.h	/^    u8  DataLightMs;$/;"	m	struct:USARTDataStream
 DataLightMs	.\BSP\inc\BSP_CFG.h	/^    u8 DataLightMs;$/;"	m	struct:ModemContrl
+Day	.\APP\src\task_freeze.c	/^    u8 Day;$/;"	v
 Day	.\BSP\inc\BSP_CFG.h	/^    u32 Day;$/;"	m	struct:FluxStat
 Day	.\BSP\inc\BSP_CFG.h	/^    u8 Day;$/;"	m	struct:Time_Type
 Day_Last	.\BSP\src\USERMATH.c	/^void Day_Last(u8 *Today, u8 *Yesday)$/;"	f
@@ -3725,19 +3731,19 @@ DiZhi	.\APP\inc\GDW376_DataType.h	/^    u8 DiZhi[2];$/;"	m	struct:ZDPStr_F89
 DisMin	.\APP\inc\GDW376_DataType.h	/^    u8 DisMin;$/;"	m	struct:PoPStr_F74
 DisconT	.\APP\inc\GDW376_DataType.h	/^    u8   DisconT;$/;"	m	struct:ZDPStr_F62
 Dummy_Byte	.\BSP\src\SPI_Flash.c	29;"	d	file:
-E2R_BiaoZhi	.\APP\inc\GDW376_MMU.h	231;"	d
-E2R_ByteNum	.\APP\inc\GDW376_MMU.h	251;"	d
-E2R_EC1	.\APP\inc\GDW376_MMU.h	237;"	d
-E2R_EC2	.\APP\inc\GDW376_MMU.h	238;"	d
-E2R_ERC1	.\APP\inc\GDW376_MMU.h	235;"	d
-E2R_ERC2	.\APP\inc\GDW376_MMU.h	236;"	d
-E2R_ERCUP	.\APP\inc\GDW376_MMU.h	239;"	d
-E2R_P1BDJ	.\APP\inc\GDW376_MMU.h	246;"	d
-E2R_P1DDJ	.\APP\inc\GDW376_MMU.h	245;"	d
-E2R_P1MDJ	.\APP\inc\GDW376_MMU.h	247;"	d
-E2R_P1QDJ	.\APP\inc\GDW376_MMU.h	248;"	d
-E2R_PNEND	.\APP\inc\GDW376_MMU.h	249;"	d
-E2R_PowD	.\APP\inc\GDW376_MMU.h	241;"	d
+E2R_BiaoZhi	.\APP\inc\GDW376_MMU.h	238;"	d
+E2R_ByteNum	.\APP\inc\GDW376_MMU.h	258;"	d
+E2R_EC1	.\APP\inc\GDW376_MMU.h	244;"	d
+E2R_EC2	.\APP\inc\GDW376_MMU.h	245;"	d
+E2R_ERC1	.\APP\inc\GDW376_MMU.h	242;"	d
+E2R_ERC2	.\APP\inc\GDW376_MMU.h	243;"	d
+E2R_ERCUP	.\APP\inc\GDW376_MMU.h	246;"	d
+E2R_P1BDJ	.\APP\inc\GDW376_MMU.h	253;"	d
+E2R_P1DDJ	.\APP\inc\GDW376_MMU.h	252;"	d
+E2R_P1MDJ	.\APP\inc\GDW376_MMU.h	254;"	d
+E2R_P1QDJ	.\APP\inc\GDW376_MMU.h	255;"	d
+E2R_PNEND	.\APP\inc\GDW376_MMU.h	256;"	d
+E2R_PowD	.\APP\inc\GDW376_MMU.h	248;"	d
 ECCR2	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	/^  __IO uint32_t ECCR2; $/;"	m	struct:__anon31
 ECCR3	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	/^  __IO uint32_t ECCR3; $/;"	m	struct:__anon32
 EGR	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	/^  __IO uint16_t EGR;$/;"	m	struct:__anon43
@@ -3745,8 +3751,7 @@ ELECT_PRIO	.\DLT104\inc\dlt_104_cfg.h	33;"	d
 EMR	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	/^  __IO uint32_t EMR;$/;"	m	struct:__anon26
 ENABLE	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	/^typedef enum {DISABLE = 0, ENABLE = !DISABLE} FunctionalState;$/;"	e	enum:__anon11
 ENCMDCOMPL_BitNumber	.\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_sdio.c	56;"	d	file:
-END_ADDR_STORE	.\APP\src\store_param.c	20;"	d	file:
-END_ADDR_STORE_PARAM	.\APP\src\store_param.c	26;"	d	file:
+END_ADDR_STORE_PARAM	.\APP\src\store_param.c	32;"	d	file:
 ERC1	.\APP\inc\GDW376_DataType.h	/^    struct ERC1Data  ERC1;$/;"	m	struct:ERCP0Data	typeref:struct:ERCP0Data::ERC1Data
 ERC1	.\APP\src\GDW376_CFG.c	/^struct ERC_Control  ERC1,ERC2; \/\/;ÊÂ¼þ¿ØÖÆ$/;"	v	typeref:struct:ERC_Control
 ERC10	.\APP\inc\GDW376_DataType.h	/^    struct ERC10Data ERC10;$/;"	m	struct:ERCPnData	typeref:struct:ERCPnData::ERC10Data
@@ -3816,7 +3821,7 @@ ERC8MS	.\APP\inc\GDW376_ERC_SMS.h	/^B2 ERC8MS[39] = {$/;"	v
 ERC8_Judge	.\APP\src\GDW376_ERC.c	/^void ERC8_Judge(struct PointDataStr *PnD, struct ERCPnData *ERCPn)$/;"	f
 ERC9MS	.\APP\inc\GDW376_ERC_SMS.h	/^B2 ERC9MS[6] = {0x77ED,0x8DEF,0x5F00,0x8DEF,0x53CD,0x5411};$/;"	v
 ERCAreaNum	.\APP\inc\GDW376_MMU.h	111;"	d
-ERCByteNum	.\APP\inc\GDW376_MMU.h	227;"	d
+ERCByteNum	.\APP\inc\GDW376_MMU.h	234;"	d
 ERCEND	.\APP\inc\GDW376_MMU.h	183;"	d
 ERCIMP_Pm	.\APP\src\GDW376_CFG.c	/^u8 ERCIMP_Pm[32][4];$/;"	v
 ERCNo	.\APP\inc\GDW376_DataType.h	/^    u8 ERCNo;        \/\/;µ±Ç°ÕýÔÚ´¦ÀíÊÂ¼þµÄ´úÂë$/;"	m	struct:ERCSMSCtrl
@@ -3836,7 +3841,7 @@ ERCSMSCtrl	.\APP\inc\GDW376_DataType.h	/^struct ERCSMSCtrl     \/\/;ÊÂ¼þ·¢ËÍ¶ÌÐÅ
 ERCSave	.\APP\src\GDW376_CFG.c	/^struct ERCSaveCtrl ERCSave;     \/\/;ÊÂ¼þ±£´æ¿ØÖÆ                                                    $/;"	v	typeref:struct:ERCSaveCtrl
 ERCSaveCtrl	.\APP\inc\GDW376_DataType.h	/^struct ERCSaveCtrl   \/\/;ÊÂ¼þ´¦Àí¿ØÖÆ×Ö$/;"	s
 ERCUp	.\APP\src\GDW376_CFG.c	/^struct ERCUpCtrl   ERCUp; \/\/;ÊÂ¼þÉÏËÍ¿ØÖÆ$/;"	v	typeref:struct:ERCUpCtrl
-ERCUpByteNum	.\APP\inc\GDW376_MMU.h	228;"	d
+ERCUpByteNum	.\APP\inc\GDW376_MMU.h	235;"	d
 ERCUpCtrl	.\APP\inc\GDW376_DataType.h	/^struct ERCUpCtrl     \/\/;ÊÂ¼þÉÏËÍÖ÷Õ¾¿ØÖÆ×Ö$/;"	s
 ERC_Add	.\APP\src\GDW376_ERC.c	/^void ERC_Add(u8 ERC, u8 status)$/;"	f
 ERC_Control	.\APP\inc\GDW376_DataType.h	/^struct ERC_Control \/\/;ÇúÏß¿ØÖÆ²ÎÊý$/;"	s
@@ -4474,7 +4479,7 @@ FLAG_Mask	.\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_dma.c	66;"	d	file
 FLAG_Mask	.\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_i2c.c	119;"	d	file:
 FLAG_Mask	.\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_rcc.c	162;"	d	file:
 FLASH	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	1381;"	d
-FLASHENDPAGE	.\APP\inc\GDW376_MMU.h	200;"	d
+FLASHENDPAGE	.\APP\inc\GDW376_MMU.h	206;"	d
 FLASH_ACR_HLFCYA	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	7684;"	d
 FLASH_ACR_LATENCY	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	7679;"	d
 FLASH_ACR_LATENCY_0	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	7680;"	d
@@ -4680,7 +4685,7 @@ FLASH_WaitForLastBank1Operation	.\Libraries\STM32F10x_StdPeriph_Driver\src\stm32
 FLASH_WaitForLastBank2Operation	.\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_flash.c	/^FLASH_Status FLASH_WaitForLastBank2Operation(uint32_t Timeout)$/;"	f
 FLASH_WaitForLastOperation	.\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_flash.c	/^FLASH_Status FLASH_WaitForLastOperation(uint32_t Timeout)$/;"	f
 FM1R	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	/^  __IO uint32_t FM1R;$/;"	m	struct:__anon18
-FM24BYTESIZE	.\APP\inc\GDW376_MMU.h	209;"	d
+FM24BYTESIZE	.\APP\inc\GDW376_MMU.h	216;"	d
 FMI	.\Libraries\STM32F10x_StdPeriph_Driver\inc\stm32f10x_can.h	/^  uint8_t FMI;     \/*!< Specifies the index of the filter the message stored in the mailbox passes through.$/;"	m	struct:__anon51
 FMR	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	/^  __IO uint32_t FMR;$/;"	m	struct:__anon18
 FMR_FINIT	.\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_can.c	96;"	d	file:
@@ -5493,7 +5498,7 @@ Flag	.\APP\inc\GDW376_DataType.h	/^    u8 Flag; \/\/;·½°¸±êÖ¾$/;"	m	struct:Group
 Flag	.\APP\inc\GDW376_DataType.h	/^    u8 Flag;$/;"	m	struct:GroupStr_F47
 FlagStatus	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	/^typedef enum {RESET = 0, SET = !RESET} FlagStatus, ITStatus;$/;"	t	typeref:enum:__anon10
 FlashBufSum	.\APP\src\GDW376_MMU.c	/^u8 FlashBufSum(void)$/;"	f
-FluxByteNum	.\APP\inc\GDW376_MMU.h	229;"	d
+FluxByteNum	.\APP\inc\GDW376_MMU.h	236;"	d
 FluxLimValue	.\APP\src\GDW376_CFG.c	/^u32 FluxLimValue; \/\/;Á÷Á¿ÏÞÖÆÖµ$/;"	v
 FluxStat	.\BSP\inc\BSP_CFG.h	/^struct FluxStat$/;"	s
 Flux_Day	.\APP\inc\GDW376_DataType.h	/^    u32 Flux_Day;$/;"	m	struct:ZDSStr_F10
@@ -5890,7 +5895,7 @@ GprsC	.\BSP\src\BSP_CFG.c	/^struct ModemContrl  GprsC, GprsCErr;$/;"	v	typeref:s
 GprsCErr	.\BSP\src\BSP_CFG.c	/^struct ModemContrl  GprsC, GprsCErr;$/;"	v	typeref:struct:
 GprsGyC	.\APP\src\GDW376_CFG.c	/^struct GuiYueCtrl   LocGyC, GprsGyC, InfGyC;$/;"	v	typeref:struct:
 GprsLC	.\BSP\src\BSP_CFG.c	/^struct ModemLinkCtrl GprsLC;$/;"	v	typeref:struct:ModemLinkCtrl
-GprsSign	.\APP\src\GDW376_MeterCom.c	/^static u8 GprsSign;$/;"	v	file:
+GprsSign	.\APP\src\GDW376_MeterCom.c	/^u8 GprsSign;$/;"	v
 GprsToMeter	.\APP\inc\GDW376_DataType.h	/^struct GprsToMeter  \/\/;gprsÄ£¿éÓëµç±íµÄÍ¨Ñ¶¿ØÖÆ$/;"	s
 Group	.\APP\inc\GDW376_DataType.h	/^    struct GroupStr_F41_1 Group[3];$/;"	m	struct:GroupStr_F41	typeref:struct:GroupStr_F41::GroupStr_F41_1
 GroupN	.\APP\inc\GDW376_DataType.h	/^    u8 GroupN;$/;"	m	struct:ZDPStr_F38
@@ -5937,6 +5942,7 @@ HWareC	.\BSP\src\BSP_CFG.c	/^struct HardWareControl   HWareC;     \/\/;ÓÃÓÚÓ²¼þ¿
 HardFault_Handler	.\BSP\src\stm32f10x_it.c	/^void HardFault_Handler(void)$/;"	f
 HardWareControl	.\BSP\inc\BSP_CFG.h	/^struct HardWareControl  \/\/;ÓÃÓÚÓ²¼þ¿ØÖÆ$/;"	s
 HostAdr	.\APP\inc\GDW376_DataType.h	/^    u8 HostAdr;       \/\/;Ö÷Õ¾µØÖ·$/;"	m	struct:ERC3Data
+Hour	.\APP\src\task_freeze.c	/^    u8 Hour;$/;"	v
 Hour	.\BSP\inc\BSP_CFG.h	/^    u8 Hour;$/;"	m	struct:Time_Type
 I0HDLYMinE	.\APP\src\GDW376_StatData.C	/^u8 IHDLYMinEA, IHHDLYMinEA, I0HDLYMinE;$/;"	v
 I0HDLYMinS	.\APP\src\GDW376_StatData.C	/^u8 IHDLYMinSA, IHHDLYMinSA, I0HDLYMinS;$/;"	v
@@ -7245,6 +7251,7 @@ MeterNumChk	.\APP\src\GDW376_MeterCom.c	/^u8 MeterNumChk(void *save, void *now)$
 MeterPowerStat	.\APP\inc\GDW376_DataType.h	/^    u8 MeterPowerStat[1];$/;"	m	struct:DF209Str
 MeterStop	.\APP\inc\GDW376_DataType.h	/^    u8  MeterStop;$/;"	m	struct:ZDPStr_F59
 MeterTime	.\APP\inc\GDW376_DataType.h	/^    u8  MeterTime;$/;"	m	struct:ZDPStr_F59
+Min	.\APP\src\task_freeze.c	/^    u8 Min;$/;"	v
 Min	.\BSP\inc\BSP_CFG.h	/^    u8 Min;$/;"	m	struct:Time_Type
 MinReCon	.\BSP\inc\BSP_CFG.h	/^    u16  MinReCon;         \/\/;Ö÷Õ¾ÖØÐÂ²¦ºÅµÄÊ±¼ä¼ä¸ô$/;"	m	struct:ModemContrl
 ModemContrl	.\BSP\inc\BSP_CFG.h	/^struct ModemContrl       \/\/;GPRSÄ£¿éµÄ¿ØÖÆ$/;"	s
@@ -7266,6 +7273,7 @@ Modem_PowON	.\BSP\src\MODEN_M590.c	/^void Modem_PowON(void)$/;"	f
 Modem_SMS_Rece	.\BSP\src\MODEN_M590.c	/^void Modem_SMS_Rece(void)$/;"	f
 Modem_SMS_Send	.\BSP\src\MODEN_M590.c	/^u8 Modem_SMS_Send(void)$/;"	f
 Modem_TCP_Send	.\BSP\src\MODEN_M590.c	/^u8 Modem_TCP_Send(void)$/;"	f
+Month	.\APP\src\task_freeze.c	/^    u8 Month;$/;"	v
 Month	.\BSP\inc\BSP_CFG.h	/^    u32 Month;$/;"	m	struct:FluxStat
 Month	.\BSP\inc\BSP_CFG.h	/^    u8 Month;$/;"	m	struct:Time_Type
 MonthCutNum	.\APP\inc\GDW376_DataType.h	/^    u8 MonthCutNum[1];$/;"	m	struct:DF50F52Str
@@ -8304,7 +8312,7 @@ Order	.\APP\inc\GDW376_DataType.h	/^    u8 Order[SBNUM];$/;"	m	struct:ControlOrd
 OutWP	.\APP\inc\GDW376_DataType.h	/^    u8 OutWP[3];$/;"	m	struct:PoPStr_F74
 OvTime	.\APP\inc\GDW376_DataType.h	/^    u8   OvTime;$/;"	m	struct:Relay_Control
 Over	.\APP\inc\GDW376_DataType.h	/^   u8  Over;$/;"	m	struct:PortCtrl
-P0ERCByteNum	.\APP\inc\GDW376_MMU.h	226;"	d
+P0ERCByteNum	.\APP\inc\GDW376_MMU.h	233;"	d
 P1BDJ	.\APP\src\GDW376_CFG.c	/^struct DJ_Control P1BDJ;\/\/;P2BDJ,P3BDJ,P4BDJ,P5BDJ,P6BDJ,P7BDJ,P8BDJ,P9BDJ,P10BDJ;    $/;"	v	typeref:struct:DJ_Control
 P1BDJHome	.\APP\inc\GDW376_MMU.h	188;"	d
 P1CSBock4	.\APP\inc\GDW376_MMU.h	160;"	d
@@ -8326,6 +8334,7 @@ P1QDJHome	.\APP\inc\GDW376_MMU.h	190;"	d
 PAGECOUNT	.\APP\inc\GDW376_MMU.h	24;"	d
 PAGECOUNT	.\BSP\src\SPI_Flash.c	23;"	d	file:
 PAGESIZE	.\APP\inc\GDW376_MMU.h	26;"	d
+PAGESIZE	.\BSP\src\store.c	17;"	d	file:
 PAGESOFSECTOR	.\APP\inc\GDW376_MMU.h	30;"	d
 PAGESOFSECTOR0A	.\APP\inc\GDW376_MMU.h	28;"	d
 PAGESOFSECTOR0B	.\APP\inc\GDW376_MMU.h	29;"	d
@@ -8335,8 +8344,8 @@ PAGE_HEAD_SIZE	.\APP\inc\GDW376_MMU.h	59;"	d
 PAGE_INDEX_SIZE	.\APP\inc\GDW376_MMU.h	58;"	d
 PAGE_LENG_SIZE	.\APP\inc\GDW376_MMU.h	57;"	d
 PAGE_SIGN_SIZE	.\APP\inc\GDW376_MMU.h	56;"	d
-PARAM_MAX_NUM	.\APP\src\store_param.c	27;"	d	file:
-PARAM_MAX_SIZE	.\APP\src\store_param.c	28;"	d	file:
+PARAM_MAX_NUM	.\APP\src\store_param.c	35;"	d	file:
+PARAM_MAX_SIZE	.\APP\src\store_param.c	36;"	d	file:
 PARAM_READ_PRIO	.\DLT104\inc\dlt_104_cfg.h	32;"	d
 PARAM_SET_PRIO	.\DLT104\inc\dlt_104_cfg.h	31;"	d
 PATT2	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	/^  __IO uint32_t PATT2;$/;"	m	struct:__anon31
@@ -8613,10 +8622,8 @@ PreData_AFN0CH	.\APP\src\GDW376_AFN.c	/^u32 PreData_AFN0CH(u16 Ind_S, u16 Ind_R,
 PreData_AFN0EH	.\APP\src\GDW376_AFN.c	/^u32 PreData_AFN0EH(u16 Ind_S, u16 Ind_R, char *S_Buf, char *R_Buf, struct GuiYueCtrl *GYCtrl)$/;"	f
 Print	.\APP\src\task_dat_pro.c	17;"	d	file:
 Print	.\APP\src\task_dat_pro.c	19;"	d	file:
-Print	.\APP\src\task_freeze.c	17;"	d	file:
-Print	.\APP\src\task_freeze.c	19;"	d	file:
-Print	.\APP\src\task_meter.c	17;"	d	file:
 Print	.\APP\src\task_meter.c	19;"	d	file:
+Print	.\APP\src\task_meter.c	21;"	d	file:
 Print	.\DLT104\DLT104\dlt_104_call.c	25;"	d	file:
 Print	.\DLT104\DLT104\dlt_104_call.c	27;"	d	file:
 Print	.\DLT104\DLT104\dlt_104_elect.c	26;"	d	file:
@@ -8633,8 +8640,8 @@ Print	.\DLT104\DLT104\dlt_104_time.c	24;"	d	file:
 Print	.\DLT104\DLT104\dlt_104_time.c	26;"	d	file:
 Print	.\DLT104\port\dlt_104_port_com.c	31;"	d	file:
 Print	.\DLT104\port\dlt_104_port_com.c	33;"	d	file:
-Print	.\DLT104\port\dlt_104_port_sys.c	19;"	d	file:
-Print	.\DLT104\port\dlt_104_port_sys.c	21;"	d	file:
+Print	.\DLT104\port\dlt_104_port_sys.c	20;"	d	file:
+Print	.\DLT104\port\dlt_104_port_sys.c	22;"	d	file:
 ProgramNum	.\APP\inc\GDW376_DataType.h	/^    u8 ProgramNum[2];$/;"	m	struct:DF213Str
 ProgramTimeout	.\Libraries\STM32F10x_StdPeriph_Driver\src\stm32f10x_flash.c	85;"	d	file:
 PtlMboxFd	.\APP\src\task_ptl.c	/^OS_EVENT *PtlMboxFd;$/;"	v
@@ -8645,7 +8652,7 @@ PuPort	.\APP\inc\GDW376_DataType.h	/^    u8  PuPort;$/;"	m	struct:ZDPStr_F11_1
 PuType	.\APP\inc\GDW376_DataType.h	/^    u8  PuType;$/;"	m	struct:ZDPStr_F11_1
 Pulse	.\APP\inc\GDW376_DataType.h	/^    struct ZDPStr_F11_1 Pulse[PULSENUM];$/;"	m	struct:ZDPStr_F11	typeref:struct:ZDPStr_F11::ZDPStr_F11_1
 QDJAreaNum	.\APP\inc\GDW376_MMU.h	132;"	d
-QDJByteNum	.\APP\inc\GDW376_MMU.h	225;"	d
+QDJByteNum	.\APP\inc\GDW376_MMU.h	232;"	d
 QDJPageNum	.\APP\inc\GDW376_MMU.h	134;"	d
 QDJPagePoint	.\APP\inc\GDW376_MMU.h	133;"	d
 QDJPn	.\APP\src\GDW376_CFG.c	/^struct DJ_SAVE_CTRL DDJPn,  BDJPn, MDJPn, QDJPn,DDLDJPn,MDLDJPn;  \/\/;¶³½á¿ØÖÆ²ÎÊý                                                                                  $/;"	v	typeref:struct:
@@ -10988,8 +10995,7 @@ SRAM_BASE	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	1212;"	d
 SRAM_BB_BASE	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	1210;"	d
 SStatData	.\APP\src\GDW376_StatData.C	/^void SStatData(struct PoPStr  *PnP, struct PointDataStr *PnD, struct ERCPnData *ERCPn)$/;"	f
 STA	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	/^  __I uint32_t STA;$/;"	m	struct:__anon41
-STA_ADDR_STORE	.\APP\src\store_param.c	19;"	d	file:
-STA_ADDR_STORE_PARAM	.\APP\src\store_param.c	25;"	d	file:
+STA_ADDR_STORE_PARAM	.\APP\src\store_param.c	31;"	d	file:
 STIR	.\Libraries\CMSIS\CM3\CoreSupport\core_cm3.h	/^  __O  uint32_t STIR;                         \/*!< Offset: 0xE00  Software Trigger Interrupt Register     *\/$/;"	m	struct:__anon1
 STM32F10XXC	.\BSP\inc\Function_CFG.h	36;"	d
 STM32F10X_HD	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	53;"	d
@@ -11014,8 +11020,11 @@ S_frame_step	.\DLT104\DLT104\dlt_104_misc.c	/^	char S_frame_step;$/;"	m	struct:p
 SafeWord	.\BSP\inc\BSP_CFG.h	/^struct SafeWord \/\/;°²È«ÈÏÖ¤×Ö$/;"	s
 SaveData_FM24	.\BSP\src\I2C_FM24.c	/^void SaveData_FM24(u8 n, u16 EEAdr1, u16 EEAdr2, u8 *adr_ram)$/;"	f
 SaveData_FM24	.\BSP\src\I2C_FRAM.c	/^void SaveData_FM24(u8 n, u16 EEAdr1, u16 EEAdr2, u8 *adr_ram)$/;"	f
+Sec	.\APP\src\task_freeze.c	/^   u8 Sec;$/;"	v
 Sec	.\BSP\inc\BSP_CFG.h	/^    u8 Sec;$/;"	m	struct:Time_Type
 SedOrd	.\BSP\inc\BSP_CFG.h	/^    u8  SedOrd;    \/\/;´®¿ÚÔÚ·¢ËÍÖ¡$/;"	m	struct:USARTDataStream
+SemPrint	.\BSP\src\printf.c	/^OS_EVENT *SemPrint;$/;"	v
+SemStore	.\BSP\src\store.c	/^OS_EVENT *SemStore;$/;"	v
 SendAT_Step	.\BSP\inc\BSP_CFG.h	/^    u8   SendAT_Step;      \/\/;µÈ´ýÏòGPRSÄ£¿é·¢ËÍATÖ¸ÁîµÄ²½Öè$/;"	m	struct:ModemContrl
 SendAT_Wait1s	.\BSP\inc\BSP_CFG.h	/^    u8   SendAT_Wait1s;$/;"	m	struct:ModemContrl
 SendByte_UART4	.\BSP\src\Serial.c	/^void SendByte_UART4(void)$/;"	f
@@ -12586,8 +12595,8 @@ ValueD	.\APP\inc\GDW376_DataType.h	/^  u8 ValueD[2];  $/;"	m	struct:DCPortStr_F8
 ValueE	.\APP\inc\GDW376_DataType.h	/^  u8 ValueE[2];  $/;"	m	struct:DCPortStr_F81
 ValueS	.\APP\inc\GDW376_DataType.h	/^  u8 ValueS[2];$/;"	m	struct:DCPortStr_F81
 ValueU	.\APP\inc\GDW376_DataType.h	/^  u8 ValueU[2];$/;"	m	struct:DCPortStr_F82
-VerByteNum	.\APP\inc\GDW376_MMU.h	223;"	d
-Version	.\APP\inc\GDW376_MMU.h	234;"	d
+VerByteNum	.\APP\inc\GDW376_MMU.h	230;"	d
+Version	.\APP\inc\GDW376_MMU.h	241;"	d
 Vmax	.\APP\inc\GDW376_DataType.h	/^    u8 Vmax[2];$/;"	m	struct:DF31Str
 Vmax	.\APP\inc\GDW376_DataType.h	/^    u8 Vmax[2];$/;"	m	struct:DF39Str
 VmaxT	.\APP\inc\GDW376_DataType.h	/^    u8 VmaxT[3];$/;"	m	struct:DF31Str
@@ -12601,7 +12610,7 @@ W16	.\BSP\inc\BSP_CFG.h	/^    u8 W16;$/;"	m	struct:EnableWordStr
 WEnergyPN	.\APP\inc\GDW376_DataType.h	/^    u8  WEnergyPN; \/\/;ÓÐ¹¦µçÄÜÊ¾ÖµÕûÊýÎ»¼°Ð¡ÊýÎ»¸öÊý$/;"	m	struct:ZDPStr_F10_1
 WFM	.\BSP\inc\BSP_CFG.h	/^    u8 WFM;$/;"	m	struct:EnableWordStr
 WIP_Flag	.\BSP\src\SPI_Flash.c	27;"	d	file:
-WLAN_BUFF_SIZE	.\APP\src\task_wlan.c	19;"	d	file:
+WLAN_BUFF_SIZE	.\APP\src\task_wlan.c	30;"	d	file:
 WLAN_MSG_SIZE	.\APP\inc\task_wlan.h	12;"	d
 WLAN_RXBUF_SIZE	.\DLT104\port\dlt_104_port_com.c	43;"	d	file:
 WLAN_TXBUF_SIZE	.\DLT104\port\dlt_104_port_com.c	44;"	d	file:
@@ -12693,7 +12702,7 @@ XBU_High	.\APP\inc\GDW376_DataType.h	/^    u8 XBU_High[2];$/;"	m	struct:ZDPStr_F
 XBU_High_Even	.\APP\inc\GDW376_DataType.h	/^    u8 XBU_High_Even[2];$/;"	m	struct:ZDPStr_F60
 XBU_High_Odd	.\APP\inc\GDW376_DataType.h	/^    u8 XBU_High_Odd[2];$/;"	m	struct:ZDPStr_F60
 XC	.\APP\inc\GDW376_DataType.h	/^    u8 XC[2];  $/;"	m	struct:PoPStr_F27
-XDJByteNum	.\APP\inc\GDW376_MMU.h	224;"	d
+XDJByteNum	.\APP\inc\GDW376_MMU.h	231;"	d
 XFKT	.\APP\inc\GDW376_DataType.h	/^    u8 XFKT[1];  \/\/;µ±Ç°¹¦ÂÊÏÂ¸¡¿ØµÄ¿ØÖÆÊ±¼ä$/;"	m	struct:ZDPStr_F91
 XFKT1	.\APP\inc\GDW376_DataType.h	/^    u8 XFKT1[1]; \/\/;µ±Ç°¹¦ÂÊÏÂ¸¡¿ØµÚ1ÂÖ¸æ¾¯Ê±¼ä$/;"	m	struct:ZDPStr_F91
 XFKT2	.\APP\inc\GDW376_DataType.h	/^    u8 XFKT2[1]; \/\/;µ±Ç°¹¦ÂÊÏÂ¸¡¿ØµÚ2ÂÖ¸æ¾¯Ê±¼ä$/;"	m	struct:ZDPStr_F91
@@ -12712,6 +12721,7 @@ YXXXOM	.\APP\inc\GDW376_DataType.h	/^    u8 YXXXOM;   \/\/;Ô½ÏÂÏÂÏÞOccur Mark$/;
 YXXXRM	.\APP\inc\GDW376_DataType.h	/^    u8 YXXXRM;   \/\/;Ô½ÏÂÏÂÏÞRecor Mark$/;"	m	struct:ERC24Data
 YX_PRIO	.\DLT104\inc\dlt_104_cfg.h	27;"	d
 YX_step	.\DLT104\DLT104\dlt_104_soe.c	/^	char YX_step;$/;"	m	struct:param_process	file:
+Year	.\APP\src\task_freeze.c	/^    u8 Year;$/;"	v
 Year	.\BSP\inc\BSP_CFG.h	/^    u8 Year;$/;"	m	struct:Time_Type
 Yester_Day	.\BSP\src\BSP_CFG.c	/^u8 Yester_Day,Yester_Month,Yester_Year, Old_Sec, Old_Min, Week;  \/\/;Ç°Ò»ÌìµÄÈÕÆÚ$/;"	v
 Yester_Month	.\BSP\src\BSP_CFG.c	/^u8 Yester_Day,Yester_Month,Yester_Year, Old_Sec, Old_Min, Week;  \/\/;Ç°Ò»ÌìµÄÈÕÆÚ$/;"	v
@@ -13008,11 +13018,11 @@ _E2R_PnMDJ	.\APP\inc\GDW376_CFG.h	71;"	d
 _E2R_PnQDJ	.\APP\inc\GDW376_CFG.h	72;"	d
 _ERCPn	.\APP\inc\GDW376_CFG.h	56;"	d
 _ETH_CLIENT_H	.\DLT104\inc\eth_client.h	10;"	d
-_FM24_BZ1	.\APP\inc\GDW376_MMU.h	216;"	d
-_FM24_BZ2	.\APP\inc\GDW376_MMU.h	217;"	d
-_FM24_BZ3	.\APP\inc\GDW376_MMU.h	218;"	d
-_FM24_BZ4	.\APP\inc\GDW376_MMU.h	219;"	d
-_FM24_TEST	.\APP\inc\GDW376_MMU.h	253;"	d
+_FM24_BZ1	.\APP\inc\GDW376_MMU.h	223;"	d
+_FM24_BZ2	.\APP\inc\GDW376_MMU.h	224;"	d
+_FM24_BZ3	.\APP\inc\GDW376_MMU.h	225;"	d
+_FM24_BZ4	.\APP\inc\GDW376_MMU.h	226;"	d
+_FM24_TEST	.\APP\inc\GDW376_MMU.h	260;"	d
 _FindHFalst	.\BSP\inc\BSP_CFG.h	236;"	d
 _FindHost	.\BSP\inc\BSP_CFG.h	234;"	d
 _GPRS_Modem_Run	.\BSP\inc\BSP_CFG.h	210;"	d
@@ -13057,6 +13067,7 @@ _PF73	.\APP\src\GDW376_Table.c	256;"	d	file:
 _PF74	.\APP\src\GDW376_Table.c	257;"	d	file:
 _PF75	.\APP\src\GDW376_Table.c	258;"	d	file:
 _PF76	.\APP\src\GDW376_Table.c	259;"	d	file:
+_PRINTF_H	.\BSP\inc\printf.h	10;"	d
 _PTL_104_	.\DLT104\inc\dlt_104.h	12;"	d
 _PTL_104_LIB	.\DLT104\inc\dlt_104_lib.h	12;"	d
 _PTL_104_PORT_	.\DLT104\inc\dlt_104_port_sys.h	12;"	d
@@ -13078,7 +13089,7 @@ _PnQDJHome	.\APP\inc\GDW376_CFG.h	64;"	d
 _RC313	.\APP\inc\PnDStructOffset.h	9;"	d
 _RC313	.\APP\src\GDW376_Table.c	433;"	d	file:
 _Redial	.\BSP\inc\BSP_CFG.h	243;"	d
-_STORE_	.\APP\inc\store.h	12;"	d
+_STORE_	.\BSP\inc\store.h	12;"	d
 _STORE_FILE_H	.\APP\inc\store_file.h	7;"	d
 _STORE_PARAM	.\APP\inc\store_param.h	12;"	d
 _SetUp	.\BSP\inc\BSP_CFG.h	239;"	d
@@ -13488,6 +13499,7 @@ back	.\BSP\inc\BSP_CFG.h	18;"	d
 bandrate	.\BSP\inc\noway_m590.h	/^    char bandrate[7];   \/* Í¨Ñ¶²¨ÌØÂÊ *\/$/;"	m	struct:m590info
 bool	.\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\stm32f10x.h	/^typedef enum {FALSE = 0, TRUE = !FALSE} bool;$/;"	t	typeref:enum:__anon9
 bps	.\APP\src\task_meter.c	/^	unsigned char bps;$/;"	m	struct:meter_ctl	file:
+bsp_printf	.\BSP\src\printf.c	/^int bsp_printf(const char *fmt, ...)$/;"	f
 buff	.\APP\inc\task_ptl.h	/^	char *buff;$/;"	m	struct:PtlMsgStr
 buff	.\APP\inc\task_wlan.h	/^	char *buff;$/;"	m	struct:WlanMsgStr
 busy	.\BSP\inc\BSP_CFG.h	22;"	d
@@ -13677,6 +13689,7 @@ init_process_init	.\DLT104\DLT104\dlt_104_init.c	/^int init_process_init(unsigne
 interval_ms	.\BSP\inc\Serial.h	/^	unsigned long interval_ms;$/;"	m	struct:uart1_rec_ctl
 interval_ms	.\BSP\inc\Serial.h	/^	unsigned long interval_ms;$/;"	m	struct:uart2_rec_ctl
 interval_ms	.\BSP\inc\Serial.h	/^	unsigned long interval_ms;$/;"	m	struct:uart5_rec_ctl
+kprintf	.\BSP\src\printf.c	/^int kprintf(const char *fmt, ...)$/;"	f
 len	.\APP\inc\task_ptl.h	/^	int len;$/;"	m	struct:PtlMsgStr
 len	.\APP\inc\task_wlan.h	/^	int len;$/;"	m	struct:WlanMsgStr
 len	.\APP\src\store_param.c	/^    char len;$/;"	m	struct:stroe_param	file:
@@ -13766,9 +13779,16 @@ point_add	.\DLT104\port\dlt_104_port_sys.c	/^	unsigned short point_add;$/;"	m	st
 port	.\APP\src\task_meter.c	/^	unsigned char port;$/;"	m	struct:meter_ctl	file:
 port	.\DLT104\port\dlt_104_port_com.c	/^	unsigned char port;$/;"	m	struct:port_com	file:
 port_com	.\DLT104\port\dlt_104_port_com.c	/^struct port_com $/;"	s	file:
-print	.\APP\src\Main.C	35;"	d	file:
-print	.\APP\src\Main.C	37;"	d	file:
+print	.\APP\src\Main.C	36;"	d	file:
+print	.\APP\src\Main.C	38;"	d	file:
+print	.\APP\src\store_param.c	23;"	d	file:
+print	.\APP\src\store_param.c	25;"	d	file:
+print	.\APP\src\task_freeze.c	19;"	d	file:
+print	.\APP\src\task_freeze.c	21;"	d	file:
+print	.\APP\src\task_wlan.c	22;"	d	file:
+print	.\APP\src\task_wlan.c	24;"	d	file:
 print_frame	.\DLT104\DLT104\dlt_104_lib.c	/^void print_frame(char port, char *buff, int len, char RT)$/;"	f
+print_init	.\BSP\src\printf.c	/^int print_init(void)$/;"	f
 prio	.\BSP\inc\noway_m590.h	/^    unsigned char prio;     \/* µ±Ç°ÕýÔÚ²Ù×÷Ä£¿éµÄÈÎÎñ *\/$/;"	m	struct:m590str
 process	.\DLT104\DLT104\dlt_104_file.c	/^static struct file_str process;	   \/* ¿ØÖÆÎÄ¼þÉÏ´«£¬ÏÂÔØ¹ý³ÌËùÓÃµ½µÄÈ«¾Ö±äÁ¿ *\/$/;"	v	typeref:struct:file_str	file:
 process	.\DLT104\DLT104\dlt_104_upgrad.c	/^static struct upgrad_str process;$/;"	v	typeref:struct:upgrad_str	file:
@@ -13814,6 +13834,7 @@ send_index	.\APP\src\task_meter.c	/^	unsigned char send_index;$/;"	m	struct:mete
 set_point_param	.\DLT104\port\dlt_104_port_sys.c	/^int set_point_param(char *asdu_data, unsigned char asdu_len, $/;"	f
 severip	.\BSP\inc\noway_m590.h	/^    char severip[16];   \/* ·þÎñ¶ËIP *\/$/;"	m	struct:m590tcp
 severport	.\BSP\inc\noway_m590.h	/^    unsigned short severport;  \/* ·þÎñ¶Ëport *\/$/;"	m	struct:m590tcp
+show_log	.\APP\src\Main.C	/^void show_log(void)$/;"	f
 simcpin	.\BSP\inc\noway_m590.h	/^    char simcpin[15];   \/* SIM¿¨PIN¼øÈ¨ *\/$/;"	m	struct:m590info
 size	.\APP\src\store_param.c	/^    char size;$/;"	m	struct:stroe_param_map	file:
 size	.\DLT104\port\dlt_104_port_com.c	/^	unsigned short size;$/;"	m	struct:port_com	file:
@@ -13827,10 +13848,11 @@ status	.\DLT104\inc\dlt_104_lib.h	/^	char status;$/;"	m	struct:dlt_lib
 step	.\DLT104\DLT104\dlt_104_call.c	/^	char step;$/;"	m	struct:param_process	file:
 step	.\DLT104\DLT104\dlt_104_init.c	/^	char step;$/;"	m	struct:param_process	file:
 step	.\DLT104\DLT104\dlt_104_param.c	/^	char step;$/;"	m	struct:param_process	file:
-storage_read	.\APP\src\store.c	/^int storage_read(unsigned long addr, char *data, int size)$/;"	f
-storage_write	.\APP\src\store.c	/^int storage_write(unsigned long addr, char *data, int size)$/;"	f
+storage_init	.\BSP\src\store.c	/^int storage_init(void)$/;"	f
+storage_read	.\BSP\src\store.c	/^int storage_read(unsigned long addr, char *data, int size)$/;"	f
+storage_write	.\BSP\src\store.c	/^int storage_write(unsigned long addr, char *data, int size)$/;"	f
 store_param_config	.\APP\src\store_param.c	/^int store_param_config(char *name, char *data)$/;"	f
-store_param_default_write	.\APP\src\store_param.c	/^static int store_param_default_write(char *name)$/;"	f	file:
+store_param_default	.\APP\src\store_param.c	/^static int store_param_default(char *name)$/;"	f	file:
 store_param_read	.\APP\src\store_param.c	/^int store_param_read(char *name, char *data)$/;"	f
 store_param_save	.\APP\src\store_param.c	/^int store_param_save(char *name, char *data, unsigned char data_len)$/;"	f
 stroe_param	.\APP\src\store_param.c	/^struct stroe_param$/;"	s	file:
@@ -13845,6 +13867,8 @@ tcpchk	.\BSP\inc\noway_m590.h	/^    struct m590tcpchk tcpchk;$/;"	m	struct:m590s
 tcprx	.\BSP\inc\noway_m590.h	/^    struct m590tcprx tcprx;$/;"	m	struct:m590str	typeref:struct:m590str::m590tcprx
 tcpstat	.\BSP\inc\noway_m590.h	/^    char tcpstat[2];    \/* Ä£¿éTCPÁ¬½Ó×´Ì¬ *\/$/;"	m	struct:m590tcp
 tcptx	.\BSP\inc\noway_m590.h	/^    struct m590tcptx tcptx;$/;"	m	struct:m590str	typeref:struct:m590str::m590tcptx
+temp	.\BSP\src\store.c	/^unsigned char temp[528];$/;"	v
+test	.\APP\src\store_param.c	/^int test(void)$/;"	f
 test_init_process_init	.\DLT104\DLT104\dlt_104_misc.c	/^int test_init_process_init(unsigned char port)$/;"	f
 test_link_process	.\DLT104\DLT104\dlt_104_misc.c	/^int test_link_process(unsigned char port)$/;"	f
 test_link_step	.\DLT104\DLT104\dlt_104_misc.c	/^	char test_link_step;$/;"	m	struct:param_process	file:
@@ -13881,6 +13905,7 @@ uart2	.\BSP\src\Serial.c	/^struct uart2_rec_ctl uart2;$/;"	v	typeref:struct:uart
 uart2_rec_ctl	.\BSP\inc\Serial.h	/^struct uart2_rec_ctl$/;"	s
 uart2_receive_packet	.\BSP\src\Serial.c	/^int uart2_receive_packet(char *rxbuf, int size, unsigned short interval_ms)$/;"	f
 uart2_send_byte	.\BSP\src\Serial.c	/^int uart2_send_byte(char *txbuf, int size)$/;"	f
+uart4_send_byte	.\BSP\src\Serial.c	/^int uart4_send_byte(char *txbuf, int size)$/;"	f
 uart5	.\BSP\src\Serial.c	/^struct uart5_rec_ctl uart5;$/;"	v	typeref:struct:uart5_rec_ctl
 uart5_rec_ctl	.\BSP\inc\Serial.h	/^struct uart5_rec_ctl$/;"	s
 uart5_receive_packet	.\BSP\src\Serial.c	/^int uart5_receive_packet(char *rxbuf, int size, unsigned short interval_ms)$/;"	f

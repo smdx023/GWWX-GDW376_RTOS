@@ -57,8 +57,6 @@ int kprintf(const char *fmt, ...)
 }
 
 
-
-/* use when OS runing, for diff task use this fun */
 int bsp_printf(const char *fmt, ...)
 {
 	va_list args;
