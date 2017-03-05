@@ -15,7 +15,7 @@ TraceBufferSize=0x00010000
 TraceStallIfFIFOFull=0x00000000
 TracePortSize=0x00000004
 [DebugChecksum]
-Checksum=1150053754
+Checksum=798024762
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -45,6 +45,7 @@ Fmt0=INT8U[256]	4	0
 Fmt1=char[512]	4	0
 Fmt2=u8[2]	4	0
 Fmt3=unsigned char[256]	4	0
+Fmt4=unsigned long[30]	4	0
 [watch_formats]
 Fmt0={W}1:DI1DI0	4	0
 Fmt1={W}1:addr	4	0
@@ -127,15 +128,11 @@ Bp0=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\DLT104\DLT104\dlt_104_init.c}.59.4" 0 0 1 ""
 Bp1=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\BSP\src\Serial.c}.589.2" 0 0 1 "" 0 "" 0
 Bp2=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\BSP\src\noway_m590.c}.682.3" 0 0 1 "" 0 "" 0
 Bp3=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\BSP\src\noway_m590.c}.352.3" 0 0 1 "" 0 "" 0
-Bp4=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\APP\src\task_wlan.c}.136.17" 0 0 1 "" 0 "" 0
-Bp5=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\APP\src\task_wlan.c}.130.17" 0 0 1 "" 0 "" 0
-Bp6=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\BSP\src\Serial.c}.230.5" 0 0 1 "" 0 "" 0
-Bp7=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\APP\src\task_wlan.c}.178.26" 0 0 1 "" 0 "" 0
-Bp8=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\APP\src\task_wlan.c}.196.19" 0 0 1 "" 0 "" 0
-Bp9=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\APP\src\Main.C}.86.2" 0 0 1 "" 0 "" 0
-Bp10=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\APP\src\store_param.c}.135.13" 0 0 1 "" 0 "" 0
-Bp11=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\APP\src\store_param.c}.165.13" 0 0 1 "" 0 "" 0
-Count=12
+Bp4=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\BSP\src\Serial.c}.230.5" 0 0 1 "" 0 "" 0
+Bp5=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\APP\src\task_wlan.c}.181.26" 0 0 1 "" 0 "" 0
+Bp6=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\APP\src\store_param.c}.135.13" 0 0 1 "" 0 "" 0
+Bp7=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\APP\src\store_param.c}.165.13" 0 0 1 "" 0 "" 0
+Count=8
 [Aliases]
 Count=0
 SuppressDialog=0

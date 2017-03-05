@@ -10,13 +10,13 @@
 #include "BSP_CFG.h"
 #include "Serial.h"
 #include "GDW376_CFG.h"
+#include "printf.h"
 
 
-
-//#define CFG_DEBUG
+#define CFG_DEBUG
 
 #ifdef CFG_DEBUG
-#define Print(fmt,args...) printf(fmt, ##args)
+#define Print(fmt,args...) kprintf(fmt, ##args)
 #else
 #define Print(fmt,args...)
 #endif
@@ -42,12 +42,63 @@ extern void ZDCB_MovDataDI(char *Order_address, struct MeterData *PMD, struct Po
 extern void ZDCB_MovDataPn(u8 pn, u8 gytype, struct MeterData *PMD);
 
 
+
+
+void set_meter_modem_status(unsigned char sign, unsigned char link_State)
+{
+	extern u8 GprsSign;
+	OS_CPU_SR  cpu_sr = 0;
+	static unsigned char old_sign = 0xFF, old_link_State = 0xFF;
+	
+	if ((old_sign == sign) && (old_link_State == link_State))
+		return;
+	
+	old_sign = sign;
+	old_link_State = link_State;
+	
+        if (sign >= 22)
+        {
+            GprsSign = 0x04;
+        }
+        else if(sign >= 14)
+        {
+            GprsSign = 0x03;
+        }
+        else if(sign >=7)
+        {
+            GprsSign = 0x02;
+        }
+        else if(sign >= 1)
+        {
+            GprsSign = 0x01;
+        }
+        else
+        {
+            GprsSign = 0x00;
+        }
+		
+        if(link_State == 1)
+        {
+            GprsSign |= 0x80;
+        }
+        else
+        {
+            GprsSign &= 0x7F;
+        }
+	
+	OS_ENTER_CRITICAL()	
+        CtrlOrder.DI[CtrlOrder.IndSave % SBNUM] = 0x04001301;               	
+        CtrlOrder.IndSave++;
+	OS_EXIT_CRITICAL();
+}
+
+
 static int collect_meter_flash(void )
 {	
-	METERDATALIGHTON(); //数据灯亮
-	OSTimeDly(50);
-	METERDATALIGHTOFF(); //数据灯亮
-	OSTimeDly(50);	
+	COMLIGHTON(); //数据灯亮
+	OSTimeDly(2);
+	COMLIGHTOFF(); //数据灯亮
+	OSTimeDly(2);	
 	return 0;
 }
 
@@ -201,8 +252,10 @@ static int meter_frame_send(unsigned char *txbuf, int len)
 	
 	ret = uart5_send_byte((char *)txbuf, len);
 	collect_meter_flash();
-	if (ret < 0)
+	if (ret < 0) {
+		Print("uart5_send_byte error!\r\n");
 		return -1;
+	}
 
 	return 0;
 }
@@ -308,25 +361,33 @@ static int colleter_meter(struct meter_ctl *ctl, unsigned char index)
 		if (len > 0) {
 			/* 向端口发送报文 */
 			ret = meter_frame_send(buff, len);
-			if (ret < 0)
+			if (ret < 0) {
+				Print("meter_frame_send error!\r\n");
 				return -1;
+			}
 			
 			/* 等待接收端口报文 */
 			len = meter_frame_receive(buff, 256, 5);
-			if (len < 0)
+			if (len < 0) {
+				Print("meter_frame_receive error!\r\n");
 				return -1;
+			}
 
 			if (len > 0) {							
 				/* 对接收到的报文进行解析 */
 				ret = collect_meter_frame_unpack(ctl, DI1DI0, buff, len);
 				if (ret == 1)
 					continue;
+				
+				Print("collect_meter_frame_unpack error[0X%04X]!\r\n", DI1DI0);
 			}
 
 			if (len == 0) {								
-				no_ack_num++;
-				if (no_ack_num > 5)
+				Print("no_ack_num error[0X%04X]!\r\n", DI1DI0);
+				no_ack_num++;				
+				if (no_ack_num > 5) {				
 					return -1;
+				}
 			}
 		}
 	}
@@ -339,7 +400,12 @@ static int colleter_meter(struct meter_ctl *ctl, unsigned char index)
 /* 将本次抄表的数据写入对应的测量点 */
 static int copy_meter_data_to_point(struct meter_ctl *ctl)
 {
+	OS_CPU_SR  cpu_sr = 0;
+	
+	OS_ENTER_CRITICAL();
 	ZDCB_MovDataPn(ctl->pn - 1, ctl->ptl_type, &PMD1);
+	OS_EXIT_CRITICAL();
+	
         return 0;
 }
 
@@ -353,16 +419,22 @@ int collect_meter_process(unsigned char *collect_time, unsigned char meter_index
 
 	memcpy(ctl.collect_time, collect_time, 5);
 	ret = meter_pre_ready(&ctl, meter_index);
-	if (ret < 0)
+	if (ret < 0) {
+		Print("meter_pre_ready error!\r\n");
 		return -1;
+	}
 
 	ret = colleter_meter(&ctl, meter_index);
-	if (ret < 0)
+	if (ret < 0) {
+		Print("colleter_meter error!\r\n");
 		return -1;
+	}
 
 	ret = copy_meter_data_to_point(&ctl);
-	if (ret < 0)
+	if (ret < 0) {
+		Print("copy_meter_data_to_point error!\r\n");
 		return -1;
+	}
         
         return 0;
 }
@@ -373,22 +445,25 @@ int collect_meter_process(unsigned char *collect_time, unsigned char meter_index
 unsigned char config_meter_di_get(unsigned long *di, unsigned char meter_index)
 {
 	unsigned char num;
-
+	OS_CPU_SR  cpu_sr = 0;
+	
 	num = CtrlOrder.IndSave;
 	if (num == 0)
 		return 0;
 
-	memcpy((char *)di, (char *)&CtrlOrder.DI, num * 4);
-
+	memcpy((char *)di, (char *)&CtrlOrder.DI, num * 4);	
+	
+	OS_ENTER_CRITICAL();
 	memset((char *)&CtrlOrder.DI, 0, num * 4);
 	CtrlOrder.IndSave = 0;
-
+	OS_EXIT_CRITICAL();
+	
 	return num;
 }
 
 
 /* 封装设表报文 */
-static int config_meter_frame_pack(unsigned char *txbuf, unsigned char DI1DI0,
+static int config_meter_frame_pack(unsigned char *txbuf, unsigned long DI1DI0,
 				   unsigned char ptl)
 {
 	u8 i, j = 0, sum = 0, n;
@@ -666,7 +741,7 @@ int config_meter(unsigned long *di, unsigned char di_num,
 	unsigned char  i;
 	unsigned char buff[256] = {0}; /* 报文收发缓存 */
 	char no_ack_num = 0;
-	int len, ret, size;
+	int len, ret;
 
 	for (i = 0; i < di_num; i++) {
 
@@ -676,13 +751,17 @@ int config_meter(unsigned long *di, unsigned char di_num,
 			
 			/* 发送报文 */
 			ret = meter_frame_send(buff, len);
-			if (ret < 0)
+			if (ret < 0) {
+				Print("meter_frame_send error!\r\n");
 				return -1;
+			}
 
 			/* 等待接收电表应答报文，这里等5秒 */
-			len = meter_frame_receive(buff, size, 5);
-			if (len < 0)
+			len = meter_frame_receive(buff, 256, 5);
+			if (len < 0) {
+				Print("meter_frame_receive error!\r\n");
 				return -1;
+			}
 			
 			/* 收到电表应答数据 */
 			if (len > 0) {
@@ -692,7 +771,9 @@ int config_meter(unsigned long *di, unsigned char di_num,
 				if (ret == 1) {
 					no_ack_num = 0;
 					continue;
-				}			
+				}
+				
+				Print("config_meter_frame_unpack error!\r\n");
 			}
 		
 			/* 
@@ -700,6 +781,7 @@ int config_meter(unsigned long *di, unsigned char di_num,
 			 * 当连续达到5次就认为本次抄表失败，退出进行下一个表抄读
 			 */
 			no_ack_num++;
+			Print("config_meter_frame_unpack no_ack_num!\r\n");
 			if (no_ack_num > 5)
 				return -1;
 		}
@@ -724,13 +806,18 @@ int config_meter_process(unsigned char meter_index)
 	
 	/* 与表通讯前的准备，包括配置通讯端口等*/
 	ret = meter_pre_ready(&ctl,  meter_index);
-	if (ret < 0)
+	if (ret < 0) {
+		Print("meter_pre_ready error!\r\n");
 		return -1;
+	}
 	
 	/* 控制下发设表DI */
 	ret = config_meter(cfg_di, cfg_di_num, &ctl, meter_index);
-	if (ret < 0)
+	if (ret < 0) {
+		Print("config_meter error!\r\n");
 		return -1;
+	}
+		
 
 	return 0;
 }
@@ -744,10 +831,9 @@ void App_Task_Meter (void *p_arg)
 	unsigned char collect_time[5]; /* 抄表时间 */
 	unsigned char collect_en = 0;  /* 抄表使能标志 */
 	
-	while (1) {
-		
-		Print("collect meter start !\r\n");
-		
+	set_meter_modem_status(0, 0);
+	
+	while (1) {	
 		/* 查询抄表时间是否到来 */
 		collect_en = collect_meter_time_up(collect_time);
 		

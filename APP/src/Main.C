@@ -103,10 +103,10 @@ int task_main(void)
 //;    ERC14_Judge(2);	 //;终端来电  zrt 20130801放到抄表函数里面
 	while(1) {
 		
-//		COMLIGHTON();  //;通信正常指示
-//		OSTimeDlyHMSM(0, 0, 1, 500);
-//		COMLIGHTOFF();
-//		OSTimeDlyHMSM(0, 0, 1, 500);		
+		METERDATALIGHTON();  //;通信正常指示
+		OSTimeDlyHMSM(0, 0, 0, 500);
+		METERDATALIGHTOFF();
+		OSTimeDlyHMSM(0, 0, 0, 500);		
 		
 		ZD_POW_CHK();	    //;检测掉电处理
 		ZD_HWareRes_CHK();  //;检测硬件是否要重启

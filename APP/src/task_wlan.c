@@ -13,6 +13,7 @@
 #include "GDW376_CFG.h"
 #include "task_wlan.h"
 #include "task_ptl.h"
+#include "task_meter.h"
 #include "printf.h"
 
 
@@ -124,6 +125,7 @@ static int wlan_tcp_client(struct wlan_info *info)
 	int time = 0;	
 	 	
 	/* 模块初始化 */
+	set_meter_modem_status(0, 0);
         ret = m590_init();
         if (ret < 0) {
 		print("m590_init error[%d]!\r\n", ret);
@@ -131,6 +133,7 @@ static int wlan_tcp_client(struct wlan_info *info)
         }
 
         ret = m590_config(&info->cfg);
+	set_meter_modem_status(info->cfg.csq[0], 0);
         if (ret < 0) {
 		print("m590_config error[%d]!\r\n", ret);
                 return -1;
@@ -156,7 +159,7 @@ static int wlan_tcp_client(struct wlan_info *info)
         }
 	
 	info->link_status = 1;
-	
+	set_meter_modem_status(info->cfg.csq[0], 1);
         while (1) {                		
 		/* 从服务器接收TCP数据 */
                 len = m590_read(buff, WLAN_BUFF_SIZE, 100);
