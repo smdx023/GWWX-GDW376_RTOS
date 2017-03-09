@@ -333,7 +333,7 @@ int dlt_104_set_param(char *asdu_data, unsigned char asdu_len)
 
 
 
-/* A14: XX XX XX XX. XX */
+/* A14: XX XX XX .XX XX */
 static void A14_to_float(float *data, unsigned char *A14)
 {
 	unsigned char BCD_sww, BCD_ww;
@@ -357,9 +357,9 @@ static void A14_to_float(float *data, unsigned char *A14)
 	BCD_qfw = (A14[0] >> 4) & 0x0F;
 	BCD_wfw = A14[0] & 0x0F;	
 
-	*data = BCD_sww * 100000 + BCD_ww * 10000 
-		+ BCD_qw * 1000 + BCD_bw * 100
-		+ BCD_sw * 10 + BCD_gw 
+	*data = BCD_sww * 100000.0 + BCD_ww * 10000.0 
+		+ BCD_qw * 1000.0 + BCD_bw * 100.0
+		+ BCD_sw * 10.0 + BCD_gw * 1.0
 		+ BCD_sfw * 0.1 + BCD_bfw * 0.01
 		+ BCD_qfw * 0.001 + BCD_wfw * 0.0001;
 }
@@ -387,9 +387,9 @@ static void A11_to_float(float *data, unsigned char *A11)
 	BCD_sfw = (A11[0] >> 4) & 0x0F;
 	BCD_bfw = A11[0] & 0x0F;
 
-	*data = BCD_sww * 100000 + BCD_ww * 10000 
-		+ BCD_qw * 1000 + BCD_bw * 100
-		+ BCD_sw * 10 + BCD_gw 
+	*data = BCD_sww * 100000.0 + BCD_ww * 10000.0 
+		+ BCD_qw * 1000.0 + BCD_bw * 100.0
+		+ BCD_sw * 10.0 + BCD_gw * 1.0
 		+ BCD_sfw * 0.1 + BCD_bfw * 0.01;
 }
 
@@ -411,10 +411,9 @@ static int get_elect_pn_YG(unsigned char pn, unsigned char ABC, char *buff)
 	buff[1] = data[1];
 	buff[2] = data[2];
 	buff[3] = data[3];
-	buff[4] = data[4];
-	buff[5] = 0; /* 品质描述词QDS */
+	buff[4] = 0; /* 品质描述词QDS */
 	
-	return 6;
+	return 5;
 }
 
 
@@ -706,9 +705,9 @@ void A9_to_float(float *data, unsigned char *A9)
 	BCD_qfw = (A9[0] >> 4) & 0x0F;
 	BCD_wfw = A9[0] & 0x0F;
 
-	*data = BCD_sw * 10 + BCD_gw 
+	*data = BCD_sw * 10.0 + BCD_gw * 1.0
 		+ BCD_sf * 0.1 + BCD_bfw * 0.01 
-		+ BCD_qfw * 0.0001 + BCD_wfw * 0.00001;
+		+ BCD_qfw * 0.001 + BCD_wfw * 0.0001;
 
 	if (S == 1)
 		*data = -*data;

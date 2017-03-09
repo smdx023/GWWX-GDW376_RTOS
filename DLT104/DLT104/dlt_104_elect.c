@@ -47,7 +47,8 @@ static struct param_process arg[MAX_PORT];
 
 
 
-/* 68 0E 04 00 04 00 65 81 06 00 01 00 00 00 00 05 */
+/* 68 0E 04 00 04 00 65 81 06 00 01 00 00 00 00 05 
+   68 0E 00 00 00 00 65 81 06 00 01 00 00 00 00 05 */
 static int dlt_104_elect_call(unsigned char port, char *rxbuf, int len)
 {
 	char TYP, VSQ, ASDU, COT, QCC;
@@ -63,7 +64,7 @@ static int dlt_104_elect_call(unsigned char port, char *rxbuf, int len)
 	}
 
 	/* 可变长度限定词 */
-	VSQ = rxbuf[7];
+	VSQ = (rxbuf[7] >> 7) & 0x01;
 	if (VSQ != 1) {
 		Print("unpack elect_call VSQ error\r\n");	
 		return 0;
@@ -103,7 +104,7 @@ static int dlt_104_elect_call_ack(unsigned char port, char *txbuf)
 	struct dlt_lib  *arg = &dlt_lib_arg[port];
 	
 	txbuf[0] = 0x68;
-	txbuf[1] = 20;
+	txbuf[1] = 14;
 			
 	txbuf[2] = 0; /*控制域C */
 	txbuf[3] = 0;
@@ -113,7 +114,7 @@ static int dlt_104_elect_call_ack(unsigned char port, char *txbuf)
 	txbuf[6] = 101; /* TI */
 	txbuf[7] = 1;  /* VSQ */	
 	
-	txbuf[8] = 5;  /* 传送原因COT 激活确认 */
+	txbuf[8] = 7;  /* 传送原因COT 激活确认 */
 	txbuf[9] = 0;
  	
 	txbuf[10] = (unsigned char)arg->asdu; /* ASDU公共地址 */
@@ -122,8 +123,10 @@ static int dlt_104_elect_call_ack(unsigned char port, char *txbuf)
 	txbuf[12] = 0; /* 信息对象地址 */
 	txbuf[13] = 0;
 	txbuf[14] = 0;
-
-	return 15;
+	
+	txbuf[15] = 5;
+	
+	return 16;
 }
 
 
@@ -131,12 +134,9 @@ static int dlt_104_elect_call_data(unsigned char port, char *txbuf)
 {
 	struct dlt_lib  *lib_arg = &dlt_lib_arg[port];
 	//struct param_process *pro_arg = &arg[port];
-	unsigned char len, num = 0, SQ = 0;
+	unsigned char len, num = 0, SQ = 1;
 
 	len = dlt_104_get_elect(txbuf + 12, SQ, &num);
-	if (len <= 0) {	
-		return 0;
-	}
 
 	txbuf[0] = 0x68;
 	txbuf[1] = 10 + len;
@@ -147,7 +147,7 @@ static int dlt_104_elect_call_data(unsigned char port, char *txbuf)
 	txbuf[5] = 0;
 
 	txbuf[6] = 206;  /* TI */
-	txbuf[7] = num;  /* VSQ */	
+	txbuf[7] = (1 << 7) | num;  /* VSQ */	
 	
 	txbuf[8] = 37;  /* 传送原因COT 响应电能量总召唤 */
 	txbuf[9] = 0;
@@ -164,7 +164,7 @@ static int dlt_104_elect_call_end(unsigned char port, char *txbuf)
 	struct dlt_lib  *arg = &dlt_lib_arg[port];
 	
 	txbuf[0] = 0x68;
-	txbuf[1] = 20;
+	txbuf[1] = 14;
 			
 	txbuf[2] = 0; /*控制域C */
 	txbuf[3] = 0;
@@ -183,8 +183,9 @@ static int dlt_104_elect_call_end(unsigned char port, char *txbuf)
 	txbuf[12] = 0; /* 信息对象地址 */
 	txbuf[13] = 0;
 	txbuf[14] = 0;
+	txbuf[15] = 5;
 
-	return 15;
+	return 16;
 }
 
 
@@ -208,7 +209,7 @@ int elect_process(unsigned char port)
 	
 	case 2: 
 		ret = com_tx(dlt_104_elect_call_data, port, ELECT_PRIO);
-		if (ret == 0) /* the all elect data frames send end */
+		if (ret == 1) /* the all elect data frames send end */
 			step++;
 		break;
 	

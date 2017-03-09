@@ -14,6 +14,8 @@
 #include "dlt_104.h"
 #include "dlt_104_lib.h"
 #include "dlt_104_port_com.h"
+#include "printf.h"
+
 
 #ifdef CFG_SYS_UCOS
   #include <ucos_ii.h>
@@ -28,9 +30,9 @@
 #define CFG_DEBUG
 
 #ifdef CFG_DEBUG
-    #define Print(fmt,args...) printf(fmt, ##args)
+    #define print(fmt,args...) kprintf(fmt, ##args)
 #else
-    #define Print(fmt,args...)
+    #define print(fmt,args...)
 #endif
 
 
@@ -89,8 +91,10 @@ int dlt_104_port_send(unsigned char port, char *buf, int len)
 #ifdef CFG_SYS_UCOS	
 	if (port == PORT_WLAN) {		
 		ret = wlan_data_post(buf, len);
-		if (ret < 0)
+		if (ret < 0) {
+			print("wlan_data_post error!\r\n");
 			return -1;
+		}
 	}	
 		
 	if (port == PORT_COM) {		
@@ -119,7 +123,12 @@ int dlt_104_port_receive(unsigned char port, char *buff, int size)
 #ifdef CFG_SYS_UCOS	
 
 	if (port == PORT_WLAN) {
-		len = wlan_data_pend(buff, size, 200);	
+		len = wlan_data_pend(buff, size, 200);
+		if (len < 0) {
+			print("wlan_data_pend error!\r\n");
+			return -1;
+		}
+		
 	}
 	
 	if (port == PORT_COM) {
@@ -153,9 +162,13 @@ void dlt_104_receive(unsigned char port)
 		com->rxlen += len;
 	}
 	
+	if (com->frame_len > 0) {
+		com->frame_len = 0;
+		memset(com->frame, 0, 256);
+	}
+	
 	if (com->rxlen >= 4) {			
 		/* 从缓存区找出一帧 */
-		memset(com->frame, 0, 256);
 		len = dlt_104_frame_read(port, com->frame, com->rxbuf, &com->rxlen);
 		if (len > 0)
 			com->frame_len = len;		

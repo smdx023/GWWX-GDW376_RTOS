@@ -48,7 +48,7 @@ int dlt_104(char port)
   	
 //	param_set_process(port);
 	
-//	elect_process(port);
+	elect_process(port);
 
 	test_link_process(port);
 

@@ -47,6 +47,7 @@ struct param_process {
 static struct param_process arg[MAX_PORT];
 
 
+/* 68 0E 00 00 00 00 64 81 06 00 01 00 00 00 00 14 */
 static int dlt_101_call_cmd(unsigned char port, char *rxbuf, int len)
 {
 	char TYP, VSQ, ASDU, COT, QOI;
@@ -62,7 +63,7 @@ static int dlt_101_call_cmd(unsigned char port, char *rxbuf, int len)
 	}
 
 	/* 可变长度限定词 */
-	VSQ = rxbuf[7];
+	VSQ = (rxbuf[7] >> 7) & 0x01;
 	if (VSQ != 1) {
 		Print("unpack call VSQ error\r\n");	
 		return 0;

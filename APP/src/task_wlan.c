@@ -159,6 +159,11 @@ static int wlan_tcp_client(struct wlan_info *info)
         }
 	
 	info->link_status = 1;
+	
+	/* 将上一次连接邮箱内的数据清空 */
+	wlan_tcp_data_pend(buff, WLAN_BUFF_SIZE, 100);
+	memset(buff, 0, WLAN_BUFF_SIZE);
+	
 	set_meter_modem_status(info->cfg.csq[0], 1);
         while (1) {                		
 		/* 从服务器接收TCP数据 */
@@ -167,7 +172,11 @@ static int wlan_tcp_client(struct wlan_info *info)
 			/* 当收到服务器数据后，超时清零 */
                         time = 0;									
 			/* 将接收到的数据发送规约任务进行数据解析 */
-			wlan_tcp_data_post(buff, len);			
+			ret = wlan_tcp_data_post(buff, len);
+			if (ret < 0) {
+				print("wlan_tcp_data_post error!\r\n");
+			}
+			
 			memset(buff, 0, WLAN_BUFF_SIZE);
 		} else if (len == 0) {
             		/*
@@ -190,7 +199,11 @@ static int wlan_tcp_client(struct wlan_info *info)
 		
 		/* 将从规约任务接收到的数据采用tcp发送 */
 		len = wlan_tcp_data_pend(buff, WLAN_BUFF_SIZE, 100);
-		if (len > 0) {
+		if (len < 0) {
+			//print("wlan_tcp_data_pend error!\r\n");
+		}	
+		
+		if (len > 5) {
 			/* 发送TCP数据 */
                		ret = m590_write(buff, len);
 			if (ret < 0) {
