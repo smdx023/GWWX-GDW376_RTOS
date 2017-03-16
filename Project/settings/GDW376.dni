@@ -128,7 +128,7 @@ mode=0
 [Breakpoints2]
 Bp0=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\DLT104\DLT104\dlt_104_init.c}.59.4" 0 0 1 "" 0 "" 0
 Bp1=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\BSP\src\Serial.c}.589.2" 0 0 1 "" 0 "" 0
-Bp2=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\BSP\src\noway_m590.c}.682.3" 0 0 1 "" 0 "" 0
+Bp2=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\BSP\src\noway_m590.c}.712.3" 0 0 1 "" 0 "" 0
 Bp3=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\APP\src\store_param.c}.165.13" 0 0 1 "" 0 "" 0
 Bp4=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\DLT104\DLT104\dlt_104_call.c}.193.2" 0 0 1 "" 0 "" 0
 Count=5

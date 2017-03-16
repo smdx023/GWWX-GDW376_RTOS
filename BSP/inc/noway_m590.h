@@ -62,6 +62,7 @@ struct m590tcp {       /* M590模块TCP连接参数 */
     unsigned short severport;  /* 服务端port */
     char tcpstat[2];    /* 模块TCP连接状态 */
     char linkflag;      /* 连接标志*/
+    int socket;
 };
 
 
@@ -120,6 +121,10 @@ int m590_config(struct m590info *info);
 int m590_tcp_link(struct m590tcp *tcp);
 int m590_read(char *rxbuf, int size, int ovt);
 int m590_write(char *wbuf, int wlen);
+int m590_tcp_listen(struct m590tcp *tcp);
+int m590_server_write(char *wbuf, int wlen);
+int m590_server_read(char *rxbuf, int size, int ovt);
+
 
 #endif /* _HUAWEI_M590_H */
 

@@ -463,6 +463,36 @@ static int at_tcp_send(const char *id, char *txbuf, int txlen)
 }
 
 
+
+static int at_tcp_server_send(const char *id, char *txbuf, int txlen)
+{
+	char cmdbuf[64] = {0};
+	int ret;
+	
+	if ((txlen > TXMAXLEN) || (txbuf == NULL))
+		return -1;
+	
+	sprintf(cmdbuf, "AT+TCPSENDS=%s,%d\r\n", id, txlen);
+	if (txatcmd(cmdbuf) < 0)
+		return -1;
+	
+	if (rxatcmd(cmdbuf, "\r\n>", 0, 64, 500) <= 0)
+		return -1;
+
+	txbuf[txlen++] = 0x0d;
+	
+	ret = uart2_send_byte(txbuf, txlen);
+	if (ret < 0)
+		return -1;
+	
+	if (rxatcmd(cmdbuf, "OK", 0, 64, 500) <= 0)
+		return -1;
+	
+	return 0;
+}
+
+
+
 /******************************************************************************
     功能说明：m590模块软关机
     输入参数：无
@@ -698,6 +728,60 @@ static int at_tcpsetup_write(char *ip, unsigned short port)
 
 
 
+
+static int at_tcplisten_write(unsigned short port)
+{
+	char cmdbuf[64] = {0};
+	char ovt_ms = 60;
+	int len;
+
+	sprintf(cmdbuf, "AT+TCPLISTEN=%d\r\n", port);
+	if (txatcmd(cmdbuf) < 0)
+		return -1;
+	
+	while (ovt_ms--) {
+		len = rxatcmd(cmdbuf, "\r\n", "\r\n", 64, 1000);
+		if (len > 0) {
+			if (strstr(cmdbuf, "+TCPLISTEN:0,OK") != NULL)
+				return 0;
+
+			if (strstr(cmdbuf, "+TCPLISTEN:bind error") != NULL)
+				return -1;
+		}	
+	}	
+		
+	return -1;
+}
+
+
+
+
+static int at_accept_socket(char *ip, int *socket)
+{
+	char cmdbuf[64] = {0};
+	unsigned short ovt_ms = 3600;
+	int len;
+	
+	while (ovt_ms--) {
+		len = rxatcmd(cmdbuf, "\r\n", "\r\n", 64, 1000);
+		if (len > 0) {
+			if (strstr(cmdbuf, "Connect AcceptSocket=") != NULL) {
+				sscanf(cmdbuf, "Connect AcceptSocket=%d,ClientAddr=%s", socket, ip);
+				if ((*socket == 0) || (*socket == 1)) {
+					tcp_link_led_on();
+					return 0;
+				}
+			}
+		}
+		
+		DELAYMS(1000);
+	}	
+		
+	return -1;
+}
+
+
+
 /******************************************************************************
     功能说明：m590模块采用客户端模块与服务器建立TCP连接
     输入参数：无
@@ -739,6 +823,47 @@ int m590_tcp_link(struct m590tcp *tcp)
 }
 
 
+
+
+int m590_tcp_listen(struct m590tcp *tcp)
+{
+	int i;
+	int ret;
+
+	/* use self tcp ptl */
+	if (at_xisp_write() < 0)
+		return -1;
+	
+	if (at_cgdcont(tcp->apn) < 0)
+		return -2;
+
+	if (at_xiic_write() < 0)
+		return -3;
+	
+	/* ppp link */
+	for (i = 0; i < 30; i++) {
+		if (at_xiic_read(tcp->gprsstat, tcp->localip) < 0)
+			return -4;
+		if (tcp->gprsstat[0] == '1')
+			break;
+		if (i >= 29)
+			return -5;
+		DELAYMS(2000);
+	}
+
+	ret = at_tcplisten_write(tcp->severport);
+	if (ret < 0)
+		return -6;
+	
+	ret = at_accept_socket(tcp->severip, &tcp->socket);
+	if (ret < 0)
+		return -7;
+	
+	return 0;
+}
+
+
+
 /******************************************************************************
     功能说明：m590模块读取数据
     输入参数：无
@@ -776,6 +901,39 @@ int m590_read(char *rxbuf, int size, int ovt)
 }
 
 
+
+
+int m590_server_read(char *rxbuf, int size, int ovt)
+{
+	int len = 0;
+	char *index;
+	
+	if ((rxbuf == NULL) || (size <= 0))
+		return -1;
+		
+	len = rxatcmd(rxbuf, "\r\n", "\r\n", size, ovt);
+	if (len > 0) {			
+		if (strstr(rxbuf, "TCPCLOSE") != NULL)
+			return -1;
+		
+		index = strstr(rxbuf, "+TCPRECVS:");
+		if (index != NULL) {	 
+			sscanf(index, "+TCPRECVS:0,%d,", &len);
+			if (len > size)
+				len = size;
+		
+			index = strstr(index + 11, ",");
+			if (index != NULL) {	
+				memcpy(rxbuf , index + 1, len);
+				return len;
+			}
+		}
+	}
+			 
+	return 0;
+}
+
+
 /******************************************************************************
     功能说明：m590模块写入数据
     输入参数：无
@@ -788,6 +946,19 @@ int m590_write(char *wbuf, int wlen)
 		return -1;
 
 	if (at_tcp_send("0", wbuf, wlen) < 0)
+		return -1;
+	
+	return 0;
+}
+
+
+
+int m590_server_write(char *wbuf, int wlen)
+{
+	if ((wbuf == NULL) || (wlen <= 0))
+		return -1;
+
+	if (at_tcp_server_send("0", wbuf, wlen) < 0)
 		return -1;
 	
 	return 0;
